@@ -158,7 +158,7 @@ def RequestBloodDon():
 def RECIPNT():
     global Rcpmaster
     Rcpmaster = Tk()
-    Rcpmaster.geometry("400x300+200+300")
+    Rcpmaster.geometry("600x500+200+300")
     Rcpmaster.title("Blood Bank Agency")
     Rcpmaster.resizable(False, False)
     Rcpmaster.configure(bg="#FFF")
@@ -217,7 +217,7 @@ def HospitalDetails():
 
     global HDmaster
     HDmaster = Tk()
-    HDmaster.geometry("400x300+200+300")
+    HDmaster.geometry("600x500+200+300")
     HDmaster.title("Hospital Details")
     HDmaster.resizable(False, False)
     HDmaster.configure(bg="#FFF")
