@@ -147,6 +147,14 @@ def deleteEntry():
     deleteButton.configure(highlightbackground="#000000")
     deleteButton.place(x=+300, y=+230)
 
+def RequestBloodDon():
+    global RBDMaster
+    RBDMaster = Tk()
+    RBDMaster.geometry("700x600+200+300")
+    RBDMaster.title("Blood Bank Agency")
+    RBDMaster.resizable(False, False)
+    RBDMaster.configure(bg="#FFF")
+
 def openHS():
     WMaster.destroy()
     HomeScreen()
