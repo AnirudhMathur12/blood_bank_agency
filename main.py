@@ -155,6 +155,66 @@ def RequestBloodDon():
     RBDMaster.resizable(False, False)
     RBDMaster.configure(bg="#FFF")
 
+def RECIPNT():
+    global Rcpmaster
+    Rcpmaster = Tk()
+    Rcpmaster.geometry("400x300+200+300")
+    Rcpmaster.title("Blood Bank Agency")
+    Rcpmaster.resizable(False, False)
+    Rcpmaster.configure(bg="#FFF")
+
+    UniqueID = Label(Rcpmaster, fg="#2c2c2c", bg="#FFF", text=" Recipient ID :" + str(lastUniqueID+1), font=("", 13))
+    UniqueID.place(x=10, y=30)
+    
+    NameLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Recipient Name: ", font=("", 13))
+    NameLbl.place(x=10, y=70)
+
+    NameEntry = Entry(Rcpmaster, bg="#ffffff")
+    NameEntry.place(x = 155, y = 75)
+
+    AmntOfBloodLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Quantity recieved(ml): ", font=("", 11))
+    AmntOfBloodLbl.place(x=10, y=100)
+
+    AmntOfBloodEntry = Entry(Rcpmaster, bg="#ffffff")
+    AmntOfBloodEntry.place(x = 155, y = 105)
+
+
+    MobileNumLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Mobile Number: ", font=("", 11))
+    MobileNumLbl.place(x=10, y=130)
+
+    MobileNumEntry = Entry(Rcpmaster, bg="#ffffff")
+    MobileNumEntry.place(x = 155, y = 135)
+
+    AddressLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Hospital ID ", font=("", 11))
+    AddressLbl.place(x=10, y=160)
+
+    AddressEntry = Entry(Rcpmaster, bg="#ffffff", width=35)
+    AddressEntry.place(x = 155, y = 165)
+
+    BldGrpLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Bloodgrp recieved: ", font=("", 11))
+    BldGrpLbl.place(x=10, y=190)
+
+    BloodGroup = OptionMenu(Rcpmaster, StringVar(), *BLD_GRP)
+    BloodGroup.place(x=155, y=190)
+
+    DateLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Date recieved: ", font=("", 11))
+    DateLbl.place(x=10, y=220)
+
+    DateDrpDown = OptionMenu(Rcpmaster, StringVar(), *date)
+    DateDrpDown.place(x=155, y=220)
+
+    Month = OptionMenu(Rcpmaster, StringVar(), *month)
+    Month.place(x=215, y=220)
+
+    yrdrpdown = OptionMenu(Rcpmaster, StringVar(), *year)
+    yrdrpdown.place(x=320, y=220)
+
+    addEntryBtn = Button(Rcpmaster, text="Add Entry")
+    addEntryBtn.configure(highlightbackground="#000000")
+    addEntryBtn.place(x=150, y=260)
+
+
+
 def openHS():
     WMaster.destroy()
     HomeScreen()
@@ -162,6 +222,8 @@ def openHS():
 def openAE():
     HSMaster.destroy()
     add_entry()
+
+RECIPNT()
 
 Welcome()
 
