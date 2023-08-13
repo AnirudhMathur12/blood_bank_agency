@@ -3,10 +3,10 @@ Blood:
     Quantity
 
 Hospital:
-    hospitalID
-    hospitalName
-    Contact Person Name
-    Contact number
+    hospitalID*
+    hospitalName*
+    Contact Person Name*
+    Contact number*
 
 Donor:
     donorid *

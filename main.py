@@ -213,6 +213,44 @@ def RECIPNT():
     addEntryBtn.configure(highlightbackground="#000000")
     addEntryBtn.place(x=150, y=260)
 
+def HospitalDetails():
+
+    global HDmaster
+    HDmaster = Tk()
+    HDmaster.geometry("400x300+200+300")
+    HDmaster.title("Hospital Details")
+    HDmaster.resizable(False, False)
+    HDmaster.configure(bg="#FFF")
+
+    #options_menu(DEmaster)
+
+    NameLbl = Label(HDmaster, fg="#000000", bg="#FFF", text="hospital ID: ", font=("", 13))
+    NameLbl.place(x=10, y=70)
+
+    NameEntry = Entry(HDmaster, bg="#ffffff")
+    NameEntry.place(x = 180, y = 70)
+
+    NameLbl = Label(HDmaster, fg="#000000", bg="#FFF", text="hospitalName: ", font=("", 13))
+    NameLbl.place(x=10, y=100)
+
+    NameEntry = Entry(HDmaster, bg="#ffffff")
+    NameEntry.place(x = 180, y = 105)
+
+    NameLbl = Label(HDmaster, fg="#000000", bg="#FFF", text="Contact Person Name: ", font=("", 13))
+    NameLbl.place(x=10, y=130)
+
+    NameEntry = Entry(HDmaster, bg="#ffffff")
+    NameEntry.place(x = 180, y = 135)
+
+    NameLbl = Label(HDmaster, fg="#000000", bg="#FFF", text="Contact number: ", font=("", 13))
+    NameLbl.place(x=10, y=160)
+
+    NameEntry = Entry(HDmaster, bg="#ffffff")
+    NameEntry.place(x = 180, y = 165)
+    
+    Proceedbtn = Button(HDmaster, text="Proceed ")
+    Proceedbtn.configure(highlightbackground="#000000")
+    Proceedbtn.place(x=150, y=260)
 
 
 def openHS():
@@ -223,8 +261,12 @@ def openAE():
     HSMaster.destroy()
     add_entry()
 
+HospitalDetails()
+
 RECIPNT()
 
 Welcome()
 
 mainloop()
+
+HospitalDetails()
