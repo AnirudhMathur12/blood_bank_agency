@@ -217,7 +217,7 @@ def HospitalDetails():
 
     global HDmaster
     HDmaster = Tk()
-    HDmaster.geometry("400x300+200+300")
+    HDmaster.geometry("350x300+200+300")
     HDmaster.title("Hospital Details")
     HDmaster.resizable(False, False)
     HDmaster.configure(bg="#FFF")
