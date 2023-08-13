@@ -64,6 +64,9 @@ def HomeScreen():
     HSMaster.resizable(False, False)
     HSMaster.configure(bg="#FFF")
 
+    addentrybutton = Button(HSMaster, text="Add Entery")
+    addentrybutton.place(x=20, y=20)
+
 def add_entry():
 
     global AEmaster
@@ -148,8 +151,10 @@ def openHS():
     WMaster.destroy()
     HomeScreen()
 
-Welcome()
+def openAE():
+    HSMaster.destroy()
+    add_entry()
 
-add_entry()
+Welcome()
 
 mainloop()
