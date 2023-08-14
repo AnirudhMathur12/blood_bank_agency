@@ -2,9 +2,22 @@
 from tkinter import *
 from tkinter import ttk
 
+# giving index numbers their own variable so it will be easier to call them and refer to them in code
+ID = 0
+NAME = 1
+PHONE_NUM = 2
+ADDRESS = 3
+BLOOD_GROUP = 4
+QTY = 5
+DATE_OF_DON = 6
+
 lastUniqueID = 0
 
-BLD_GRP = [
+# format:
+#    ID, name, phone number, address, blood group, quantity, date donated
+donors = {}
+
+blood_groups = [
     "A+",
     "A-",
     "B+",
@@ -37,7 +50,7 @@ date = []
 for i in range(1, 32):
     date.append(i)
 
-for i in range(2006, 2027):
+for i in range(2023, 2027):
     year.append(i)
 
 
@@ -67,7 +80,7 @@ def HomeScreen():
     addentrybutton = Button(HSMaster, text="Add Entry", command=openAE)
     addentrybutton.place(x=20, y=20)
 
-def add_entry():
+def add_entry_window():
 
     global AEmaster
     AEmaster = Tk()
@@ -107,7 +120,7 @@ def add_entry():
     BldGrpLbl = Label(AEmaster, fg="#000000", bg="#FFF", text="Blood Group: ", font=("", 11))
     BldGrpLbl.place(x=10, y=190)
 
-    BloodGroup = OptionMenu(AEmaster, StringVar(), *BLD_GRP)
+    BloodGroup = OptionMenu(AEmaster, StringVar(), *blood_groups)
     BloodGroup.place(x=155, y=190)
 
     DateLbl = Label(AEmaster, fg="#000000", bg="#FFF", text="Date: ", font=("", 11))
@@ -122,7 +135,7 @@ def add_entry():
     yrdrpdown = OptionMenu(AEmaster, StringVar(), *year)
     yrdrpdown.place(x=320, y=220)
 
-    addEntryBtn = Button(AEmaster, text="Add Entry")
+    addEntryBtn = Button(AEmaster, text="Add Entry", command=add_entry)
     addEntryBtn.configure(highlightbackground="#000000")
     addEntryBtn.place(x=150, y=260)
 
@@ -161,8 +174,6 @@ def openHS():
 
 def openAE():
     HSMaster.destroy()
-    add_entry()
-
-Welcome()
+    add_entry_window()
 
 mainloop()
