@@ -207,7 +207,7 @@ def RECIPNT():
     BldGrpLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Bloodgrp recieved: ", font=("", 11))
     BldGrpLbl.place(x=10, y=190)
 
-    BloodGroup = OptionMenu(Rcpmaster, StringVar(), *BLD_GRP)
+    BloodGroup = OptionMenu(Rcpmaster, StringVar(), *blood_groups)
     BloodGroup.place(x=155, y=190)
 
     DateLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Date recieved: ", font=("", 11))
