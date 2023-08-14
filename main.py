@@ -274,6 +274,9 @@ def openAE():
     HSMaster.destroy()
     add_entry()
 
+def add_entry():
+    pass
+
 Welcome()
 
 mainloop()
