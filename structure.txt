@@ -3,10 +3,10 @@ Blood:
     Quantity
 
 Hospital:
-    hospitalID
-    hospitalName
-    Contact Person Name
-    Contact number
+    hospitalID*
+    hospitalName*
+    Contact Person Name*
+    Contact number*
 
 Donor:
     donorid *
@@ -18,12 +18,12 @@ Donor:
     Date Donated*
 
 Recipient:
-    ID
-    Name
-    Phone NUmber
-    Recieving date
-    Quantity
-    Hospital ID
+    ID*
+    Name*
+    Phone Number*
+    Recieving date*
+    Quantity*
+    Hospital ID*
 
 Structure:
     Register a hospital
