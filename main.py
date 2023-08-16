@@ -137,22 +137,22 @@ def donate_blood():
     BldGrpLbl.place(x=10, y=190)
 
     selected_blood_group = StringVar(AEMaster)
-    BloodGroup = ttk.Combobox(AEMaster, textvariable=selected_blood_group, values=blood_groups, state="readonly")
+    BloodGroup = ttk.Combobox(AEMaster, textvariable=selected_blood_group, values=blood_groups, width=2, state="readonly")
     BloodGroup.place(x=155, y=190)
 
     DateLbl = Label(AEMaster, fg="#000000", bg="#FFF", text="Date: ", font=("", 11))
     DateLbl.place(x=10, y=220)
 
     selected_date = StringVar(AEMaster)
-    DateDrpDown = ttk.Combobox(AEMaster, textvariable=selected_date, values=date, width=3, state="readonly")
+    DateDrpDown = ttk.Combobox(AEMaster, textvariable=selected_date, values=date, width=2, state="readonly")
     DateDrpDown.place(x=155, y=220)
 
     selected_month = StringVar(AEMaster)
-    Month = ttk.Combobox(AEMaster, textvariable=selected_month, values=month, width=5, state="readonly")
+    Month = ttk.Combobox(AEMaster, textvariable=selected_month, values=month, width=7, state="readonly")
     Month.place(x=215, y=220)
 
     selected_year = StringVar(AEMaster)
-    yrdrpdown = ttk.Combobox(AEMaster, textvariable=selected_year, values=year, width=4, state="readonly")
+    yrdrpdown = ttk.Combobox(AEMaster, textvariable=selected_year, values=year, width=5, state="readonly")
     yrdrpdown.place(x=320, y=220)
 
     addEntryBtn = Button(AEMaster, text="Add Entry", command=lambda: add_entry(
@@ -313,6 +313,6 @@ def back(_from):
     _from.destroy()
     HomeScreen()
 
-Welcome()
+HomeScreen()
 
 mainloop()
