@@ -16,6 +16,7 @@ Donor:
     donor blood group*
     Quantity*
     Date Donated*
+    Associated Hospital ?
 
 Recipient:
     ID*
