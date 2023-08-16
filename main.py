@@ -10,12 +10,13 @@ ADDRESS = 3
 BLOOD_GROUP = 4
 QTY = 5
 DATE_OF_DON = 6
+ASSOCIATED_HOSP = 7
 
 lastUniqueID = 0
 
 # format:
 #    ID, name, phone number, address, blood group, quantity, date donated
-donors = {}
+donors = []
 
 blood_groups = [
     "A+",
@@ -47,6 +48,12 @@ year = []
 
 date = []
 
+hospitals = [
+    "Apollo", 
+    "Fortis",
+    "Narayana"
+]
+
 for i in range(1, 32):
     date.append(i)
 
@@ -54,20 +61,20 @@ for i in range(2023, 2027):
     year.append(i)
 
 
-def Welcome():
+# def Welcome():
 
-    global WMaster
-    WMaster = Tk()
-    WMaster.geometry("500x300+200+300")
-    WMaster.title("Blood Bank Agency")
-    WMaster.resizable(False, False)
-    WMaster.configure(bg="#FFF")
+#     global WMaster
+#     WMaster = Tk()
+#     WMaster.geometry("500x300+200+300")
+#     WMaster.title("Blood Bank Agency")
+#     WMaster.resizable(False, False)
+#     WMaster.configure(bg="#FFF")
 
-    welcomeTextp2 = Label(WMaster, text="BlOOD BANK AGENCY", font=("", 30),fg="#000000", bg="#FFF")
-    welcomeTextp2.place(x=30, y = 100)
+#     welcomeTextp2 = Label(WMaster, text="BlOOD BANK AGENCY", font=("", 30),fg="#000000", bg="#FFF")
+#     welcomeTextp2.place(x=30, y = 100)
 
-    enter_btn =  Button(WMaster, text="Enter", font=("", 15),fg='white',bg='#ff2400', command=openHS)
-    enter_btn.place(x=205, y=200)
+#     enter_btn =  Button(WMaster, text="Enter", font=("", 15),fg='white',bg='#ff2400', command=openHS)
+#     enter_btn.place(x=205, y=200)
 
 def HomeScreen():
     global HSMaster
@@ -80,64 +87,83 @@ def HomeScreen():
     addentrybutton = Button(HSMaster, text="Add Entry", command=openAE)
     addentrybutton.place(x=20, y=20)
 
-def add_entry_window():
+    global donorsList
+    donorsList = Listbox(HSMaster)
+    for donor in donors:
+        donorsList.insert(END, donor)
+    donorsList.pack()
 
-    global AEmaster
-    AEmaster = Tk()
-    AEmaster.geometry("400x300+200+300")
-    AEmaster.title("Blood Bank Agency")
-    AEmaster.resizable(False, False)
-    AEmaster.configure(bg="#FFF")
+    print(donors)
 
-    UniqueID = Label(AEmaster, fg="#2c2c2c", bg="#FFF", text="Unique ID :" + str(lastUniqueID+1), font=("", 13))
+def donate_blood():
+
+    #TODO: Add a "Associated Hospital" field and respective drop-down menu
+    global AEMaster
+    AEMaster = Tk()
+    AEMaster.geometry("400x300+200+300")
+    AEMaster.title("Blood Bank Agency")
+    AEMaster.resizable(False, False)
+    AEMaster.configure(bg="#FFF")
+
+    UniqueID = Label(AEMaster, fg="#2c2c2c", bg="#FFF", text="Unique ID :" + str(lastUniqueID+1), font=("", 13))
     UniqueID.place(x=10, y=30)
     
-    NameLbl = Label(AEmaster, fg="#000000", bg="#FFF", text="First Name: ", font=("", 13))
+    NameLbl = Label(AEMaster, fg="#000000", bg="#FFF", text="First Name: ", font=("", 13))
     NameLbl.place(x=10, y=70)
 
-    NameEntry = Entry(AEmaster, bg="#ffffff")
+    NameEntry = Entry(AEMaster, bg="#ffffff", fg="#000000")
     NameEntry.place(x = 155, y = 75)
 
-    AmntOfBloodLbl = Label(AEmaster, fg="#000000", bg="#FFF", text="Amount of Blood(ml): ", font=("", 11))
+    AmntOfBloodLbl = Label(AEMaster, fg="#000000", bg="#FFF", text="Amount of Blood(ml): ", font=("", 11))
     AmntOfBloodLbl.place(x=10, y=100)
 
-    AmntOfBloodEntry = Entry(AEmaster, bg="#ffffff")
+    AmntOfBloodEntry = Entry(AEMaster, bg="#ffffff")
     AmntOfBloodEntry.place(x = 155, y = 105)
 
 
-    MobileNumLbl = Label(AEmaster, fg="#000000", bg="#FFF", text="Mobile Number: ", font=("", 11))
+    MobileNumLbl = Label(AEMaster, fg="#000000", bg="#FFF", text="Mobile Number: ", font=("", 11))
     MobileNumLbl.place(x=10, y=130)
 
-    MobileNumEntry = Entry(AEmaster, bg="#ffffff")
+    MobileNumEntry = Entry(AEMaster, bg="#ffffff")
     MobileNumEntry.place(x = 155, y = 135)
 
-    AddressLbl = Label(AEmaster, fg="#000000", bg="#FFF", text="Address: ", font=("", 11))
+    AddressLbl = Label(AEMaster, fg="#000000", bg="#FFF", text="Address: ", font=("", 11))
     AddressLbl.place(x=10, y=160)
 
-    AddressEntry = Entry(AEmaster, bg="#ffffff", width=35)
+    AddressEntry = Entry(AEMaster, bg="#ffffff", width=35)
     AddressEntry.place(x = 155, y = 165)
 
-    BldGrpLbl = Label(AEmaster, fg="#000000", bg="#FFF", text="Blood Group: ", font=("", 11))
+    BldGrpLbl = Label(AEMaster, fg="#000000", bg="#FFF", text="Blood Group: ", font=("", 11))
     BldGrpLbl.place(x=10, y=190)
 
-    BloodGroup = OptionMenu(AEmaster, StringVar(), *blood_groups)
+    selected_blood_group = StringVar(AEMaster)
+    BloodGroup = ttk.Combobox(AEMaster, textvariable=selected_blood_group, values=blood_groups, state="readonly")
     BloodGroup.place(x=155, y=190)
 
-    DateLbl = Label(AEmaster, fg="#000000", bg="#FFF", text="Date: ", font=("", 11))
+    DateLbl = Label(AEMaster, fg="#000000", bg="#FFF", text="Date: ", font=("", 11))
     DateLbl.place(x=10, y=220)
 
-    DateDrpDown = OptionMenu(AEmaster, StringVar(), *date)
+    selected_date = StringVar(AEMaster)
+    DateDrpDown = ttk.Combobox(AEMaster, textvariable=selected_date, values=date, width=3, state="readonly")
     DateDrpDown.place(x=155, y=220)
 
-    Month = OptionMenu(AEmaster, StringVar(), *month)
+    selected_month = StringVar(AEMaster)
+    Month = ttk.Combobox(AEMaster, textvariable=selected_month, values=month, width=5, state="readonly")
     Month.place(x=215, y=220)
 
-    yrdrpdown = OptionMenu(AEmaster, StringVar(), *year)
+    selected_year = StringVar(AEMaster)
+    yrdrpdown = ttk.Combobox(AEMaster, textvariable=selected_year, values=year, width=4, state="readonly")
     yrdrpdown.place(x=320, y=220)
 
-    addEntryBtn = Button(AEmaster, text="Add Entry", command=add_entry)
-    addEntryBtn.configure(highlightbackground="#000000")
+    addEntryBtn = Button(AEMaster, text="Add Entry", command=lambda: add_entry(
+        lastUniqueID, NameEntry.get(), MobileNumEntry.get(), AddressEntry.get(),
+        selected_blood_group.get(), AmntOfBloodEntry.get(), int(selected_date.get()),
+        selected_month.get(), int(selected_year.get())
+        ))
     addEntryBtn.place(x=150, y=260)
+
+    backButton = Button(AEMaster, text="Back", command=lambda: back(AEMaster))
+    backButton.place(x = 200, y = 260)
 
 def deleteEntry():
 
@@ -226,6 +252,7 @@ def RECIPNT():
     addEntryBtn.configure(highlightbackground="#000000")
     addEntryBtn.place(x=150, y=260)
 
+
 def HospitalDetails():
 
     global HDmaster
@@ -266,18 +293,27 @@ def HospitalDetails():
     Proceedbtn.place(x=150, y=260)
 
 
-def openHS():
-    WMaster.destroy()
-    HomeScreen()
+# def openHS():
+#     WMaster.destroy()
+#     HomeScreen() 
 
 def openAE():
     HSMaster.destroy()
-    add_entry()
+    donate_blood()
 
-def add_entry():
-    pass
+def add_entry(Id, Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
+    donors.append([Id, str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
 
-Welcome()
+
+def test(selectedBldGrp):
+    print(selectedBldGrp)
+
+
+def back(_from):
+    _from.destroy()
+    HomeScreen()
+
+HomeScreen()
 
 mainloop()
 
