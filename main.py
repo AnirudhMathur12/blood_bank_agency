@@ -217,7 +217,7 @@ def HospitalDetails():
 
     global HDmaster
     HDmaster = Tk()
-    HDmaster.geometry("350x300+200+300")
+    HDmaster.geometry("350x250+200+300")
     HDmaster.title("Hospital Details")
     HDmaster.resizable(False, False)
     HDmaster.configure(bg="#FFF")
@@ -250,7 +250,7 @@ def HospitalDetails():
     
     Proceedbtn = Button(HDmaster, text="Proceed ")
     Proceedbtn.configure(highlightbackground="#000000")
-    Proceedbtn.place(x=150, y=260)
+    Proceedbtn.place(x=150, y=200)
 
 
 def openHS():
@@ -261,6 +261,8 @@ def openAE():
     HSMaster.destroy()
     add_entry()
 
+add_entry()
+
 HospitalDetails()
 
 RECIPNT()
@@ -269,4 +271,3 @@ Welcome()
 
 mainloop()
 
-HospitalDetails()
