@@ -159,7 +159,7 @@ def donate_blood():
         lastUniqueID, NameEntry.get(), MobileNumEntry.get(), AddressEntry.get(),
         selected_blood_group.get(), AmntOfBloodEntry.get(), int(selected_date.get()),
         selected_month.get(), int(selected_year.get())
-        ))
+    ))
     addEntryBtn.place(x=150, y=260)
 
     backButton = Button(AEMaster, text="Back", command=lambda: back(AEMaster))
@@ -313,8 +313,6 @@ def back(_from):
     _from.destroy()
     HomeScreen()
 
-HomeScreen()
+Welcome()
 
 mainloop()
-
-HospitalDetails()
