@@ -163,7 +163,7 @@ def donate_blood():
     addEntryBtn.place(x=150, y=260)
 
     backButton = Button(AEMaster, text="Back", command=lambda: back(AEMaster))
-    backButton.place(x = 200, y = 260)
+    backButton.place(x = 250, y = 260)
 
 def deleteEntry():
 
