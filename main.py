@@ -163,7 +163,7 @@ def donate_blood():
     addEntryBtn.place(x=150, y=260)
 
     backButton = Button(AEMaster, text="Back", command=lambda: back(AEMaster))
-    backButton.place(x = 200, y = 260)
+    backButton.place(x = 250, y = 260)
 
 def deleteEntry():
 
@@ -257,7 +257,7 @@ def HospitalDetails():
 
     global HDmaster
     HDmaster = Tk()
-    HDmaster.geometry("350x300+200+300")
+    HDmaster.geometry("350x250+200+300")
     HDmaster.title("Hospital Details")
     HDmaster.resizable(False, False)
     HDmaster.configure(bg="#FFF")
@@ -290,7 +290,7 @@ def HospitalDetails():
     
     Proceedbtn = Button(HDmaster, text="Proceed ")
     Proceedbtn.configure(highlightbackground="#000000")
-    Proceedbtn.place(x=150, y=260)
+    Proceedbtn.place(x=150, y=200)
 
 
 # def openHS():
