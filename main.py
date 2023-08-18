@@ -165,27 +165,6 @@ def donate_blood():
     backButton = Button(AEMaster, text="Back", command=lambda: back(AEMaster))
     backButton.place(x = 250, y = 260)
 
-def deleteEntry():
-
-    global DEmaster
-    DEmaster = Tk()
-    DEmaster.geometry("700x600+200+300")
-    DEmaster.title("Blood Bank Agency")
-    DEmaster.resizable(False, False)
-    DEmaster.configure(bg="#FFF")
-
-    #options_menu(DEmaster)
-
-    uniqueIdReq = Label(DEmaster, fg="#000000", bg="#FFF", text="Unique id: ", font=("", 40))
-    uniqueIdReq.place(x=+10, y=+170)
-
-    uniqueIdEntry = Entry(DEmaster, bg="#ffffff")
-    uniqueIdEntry.place(x=+300, y=+200)
-
-    deleteButton = Button(DEmaster, text="Delete Entry")
-    deleteButton.configure(highlightbackground="#000000")
-    deleteButton.place(x=+300, y=+230)
-
 def RequestBloodDon():
     global RBDMaster
     RBDMaster = Tk()
