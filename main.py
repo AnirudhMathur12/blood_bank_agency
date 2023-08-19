@@ -84,14 +84,17 @@ def HomeScreen():
     HSMaster.resizable(False, False)
     HSMaster.configure(bg="#FFF")
 
-    addentrybutton = Button(HSMaster, text="Add Entry", command=openAE)
+    addentrybutton = Button(HSMaster, text="Donate Blood", command=openAE)
     addentrybutton.place(x=20, y=20)
 
-    global donorsList
-    donorsList = Listbox(HSMaster)
-    for donor in donors:
-        donorsList.insert(END, donor)
-    donorsList.pack()
+    displayDonorsBtn = Button(HSMaster, text="Display all donors", command=openDisplayerDonor)
+    displayDonorsBtn.place(x = 20, y  = 50)
+
+    registerNewHospitalBtn = Button(HSMaster, text="Register a new Hospital", command=openRegisterHosp)
+    registerNewHospitalBtn.place(x = 20, y  = 80)
+
+    requestBloodDonationBtn = Button(HSMaster, text="Request Blood Donation", command=openRequestBloodDonation)
+    requestBloodDonationBtn.place(x = 20, y = 110)
 
     print(donors)
 
@@ -165,15 +168,7 @@ def donate_blood():
     backButton = Button(AEMaster, text="Back", command=lambda: back(AEMaster))
     backButton.place(x = 250, y = 260)
 
-def RequestBloodDon():
-    global RBDMaster
-    RBDMaster = Tk()
-    RBDMaster.geometry("700x600+200+300")
-    RBDMaster.title("Blood Bank Agency")
-    RBDMaster.resizable(False, False)
-    RBDMaster.configure(bg="#FFF")
-
-def RECIPNT():
+def requestBloodDonation():
     global Rcpmaster
     Rcpmaster = Tk()
     Rcpmaster.geometry("400x300+200+300")
@@ -203,40 +198,47 @@ def RECIPNT():
     MobileNumEntry = Entry(Rcpmaster, bg="#ffffff")
     MobileNumEntry.place(x = 155, y = 135)
 
-    AddressLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Hospital ID ", font=("", 11))
-    AddressLbl.place(x=10, y=160)
+    HospIdLabel = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Hospital", font=("", 11))
+    HospIdLabel.place(x=10, y=160)
 
-    AddressEntry = Entry(Rcpmaster, bg="#ffffff", width=35)
-    AddressEntry.place(x = 155, y = 165)
+    selected_hospital = StringVar(Rcpmaster)
+    HospIDDropBox = ttk.Combobox(Rcpmaster, textvariable=selected_hospital, values=hospitals, width=7, state="readonly")
+    HospIDDropBox.place(x = 155, y = 165)
 
     BldGrpLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Bloodgrp recieved: ", font=("", 11))
     BldGrpLbl.place(x=10, y=190)
 
-    BloodGroup = OptionMenu(Rcpmaster, StringVar(), *blood_groups)
+    selected_blood_group = StringVar(Rcpmaster)
+    BloodGroup = ttk.Combobox(Rcpmaster, textvariable=selected_blood_group, values=blood_groups, width=2, state="readonly")
     BloodGroup.place(x=155, y=190)
 
-    DateLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Date recieved: ", font=("", 11))
+    DateLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Date: ", font=("", 11))
     DateLbl.place(x=10, y=220)
 
-    DateDrpDown = OptionMenu(Rcpmaster, StringVar(), *date)
+    selected_date = StringVar(Rcpmaster)
+    DateDrpDown = ttk.Combobox(Rcpmaster, textvariable=selected_date, values=date, width=2, state="readonly")
     DateDrpDown.place(x=155, y=220)
 
-    Month = OptionMenu(Rcpmaster, StringVar(), *month)
+    selected_month = StringVar(Rcpmaster)
+    Month = ttk.Combobox(Rcpmaster, textvariable=selected_month, values=month, width=7, state="readonly")
     Month.place(x=215, y=220)
 
-    yrdrpdown = OptionMenu(Rcpmaster, StringVar(), *year)
+    selected_year = StringVar(Rcpmaster)
+    yrdrpdown = ttk.Combobox(Rcpmaster, textvariable=selected_year, values=year, width=5, state="readonly")
     yrdrpdown.place(x=320, y=220)
 
-    addEntryBtn = Button(Rcpmaster, text="Add Entry")
-    addEntryBtn.configure(highlightbackground="#000000")
-    addEntryBtn.place(x=150, y=260)
+    requestBloodBtn = Button(Rcpmaster, text="Request Blood")
+    requestBloodBtn.configure(highlightbackground="#000000")
+    requestBloodBtn.place(x=150, y=260)
 
+    backButton = Button(Rcpmaster, text="Back", command=lambda: back(Rcpmaster))
+    backButton.place(x = 250, y = 260)
 
-def HospitalDetails():
+def RegisterNewHopsital():
 
     global HDmaster
     HDmaster = Tk()
-    HDmaster.geometry("350x250+200+300")
+    HDmaster.geometry("400x250+200+300")
     HDmaster.title("Hospital Details")
     HDmaster.resizable(False, False)
     HDmaster.configure(bg="#FFF")
@@ -271,6 +273,9 @@ def HospitalDetails():
     Proceedbtn.configure(highlightbackground="#000000")
     Proceedbtn.place(x=150, y=200)
 
+    backBtn = Button(HDmaster, text="Back", command=lambda: back(HDmaster))
+    backBtn.place(x = 250, y=200)
+
 
 # def openHS():
 #     WMaster.destroy()
@@ -280,13 +285,40 @@ def openAE():
     HSMaster.destroy()
     donate_blood()
 
+def openDisplayerDonor():
+    HSMaster.destroy()
+    displayDonors()
+
+def openRegisterHosp():
+    HSMaster.destroy()
+    RegisterNewHopsital()
+
+def openRequestBloodDonation():
+    HSMaster.destroy()
+    requestBloodDonation()
+
 def add_entry(Id, Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
     donors.append([Id, str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
 
+def displayDonors():
+    global DDMaster
+    DDMaster = Tk()
+    DDMaster.geometry("400x300+200+300")
+    DDMaster.title("Blood Bank Agency")
+    DDMaster.resizable(False, False)
+    DDMaster.configure(bg="#FFF")
 
-def test(selectedBldGrp):
-    print(selectedBldGrp)
+    titleLabel = Label(DDMaster, text="List of All donors")
+    titleLabel.pack()
 
+    global donorsList
+    donorsList = Listbox(DDMaster, width=50)
+    for donor in donors:
+        donorsList.insert(END, donor)
+    donorsList.pack()
+
+    backBtn = Button(DDMaster, text="Back", command=lambda: back(DDMaster))
+    backBtn.pack()
 
 def back(_from):
     _from.destroy()
