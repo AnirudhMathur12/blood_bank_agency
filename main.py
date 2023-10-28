@@ -17,7 +17,7 @@ lastUniqueID = 0
 # format:
 #    ID, name, phone number, address, blood group, quantity, date donated
 donors = []
-
+Recipients=[]
 blood_groups = [
     "A+",
     "A-",
@@ -98,6 +98,10 @@ def HomeScreen():
     requestBloodDonationBtn = Button(HSMaster, text="Request Blood Donation", command=openRequestBloodDonation)
     requestBloodDonationBtn.place(x = 20, y = 110)
 
+    displayrcpnt = Button(HSMaster, text="Display all recipients", command=opendisplayrecipients)
+    displayrcpnt.place(x = 20, y = 140)
+
+    
     print(donors)
 
 #donate blood window
@@ -231,9 +235,13 @@ def requestBloodDonation():
     yrdrpdown = ttk.Combobox(Rcpmaster, textvariable=selected_year, values=year, width=5, state="readonly")
     yrdrpdown.place(x=320, y=220)
 
-    requestBloodBtn = Button(Rcpmaster, text="Request Blood")
-    requestBloodBtn.configure(highlightbackground="#000000")
-    requestBloodBtn.place(x=150, y=260)
+    requestBlood = Button(Rcpmaster, text="Request Blood", command=lambda: request_Blood(
+        UniqueID, NameEntry.get(), AmntOfBloodEntry.get(), MobileNumEntry.get(),
+        selected_hospital.get(),selected_blood_group.get(), int(selected_date.get()),
+        selected_month.get(), int(selected_year.get())
+    ))
+    requestBlood.configure(highlightbackground="#000000")
+    requestBlood.place(x=150, y=260)
 
     backButton = Button(Rcpmaster, text="Back", command=lambda: back(Rcpmaster))
     backButton.place(x = 250, y = 260)
@@ -302,8 +310,15 @@ def openRequestBloodDonation():
     HSMaster.destroy()
     requestBloodDonation()
 
+def opendisplayrecipients():
+    HSMaster.destroy()
+    displayrecipients()
+
 def add_entry(Id, Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
     donors.append([Id, str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
+
+def  request_Blood(Id, Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
+    Recipients.append([Id, str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
 
 def displayDonors():
     global DDMaster
@@ -323,6 +338,28 @@ def displayDonors():
     donorsList.pack()
 
     backBtn = Button(DDMaster, text="Back", command=lambda: back(DDMaster))
+    backBtn.pack()
+
+
+
+def displayrecipients():
+    global DRMaster
+    DRMaster = Tk()
+    DRMaster.geometry("400x300+200+300")
+    DRMaster.title("Blood Bank Agency")
+    DRMaster.resizable(False, False)
+    DRMaster.configure(bg="#FFF")
+
+    titleLabel = Label(DRMaster, text="List of All Recipients")
+    titleLabel.pack()
+
+    global RecipientList
+    RecipientList = Listbox(DRMaster, width=50)
+    for Recipient in Recipients:
+        RecipientList.insert(END, Recipient)
+    RecipientList.pack()
+
+    backBtn = Button(DRMaster, text="Back", command=lambda: back(DRMaster))
     backBtn.pack()
 
 def back(_from):
