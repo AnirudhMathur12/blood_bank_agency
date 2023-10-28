@@ -76,6 +76,8 @@ for i in range(2023, 2027):
 #     enter_btn =  Button(WMaster, text="Enter", font=("", 15),fg='white',bg='#ff2400', command=openHS)
 #     enter_btn.place(x=205, y=200)
 
+
+#home screen
 def HomeScreen():
     global HSMaster
     HSMaster = Tk()
@@ -98,6 +100,7 @@ def HomeScreen():
 
     print(donors)
 
+#donate blood window
 def donate_blood():
 
     #TODO: Add a "Associated Hospital" field and respective drop-down menu
@@ -168,6 +171,7 @@ def donate_blood():
     backButton = Button(AEMaster, text="Back", command=lambda: back(AEMaster))
     backButton.place(x = 250, y = 260)
 
+#req blood donation window
 def requestBloodDonation():
     global Rcpmaster
     Rcpmaster = Tk()
@@ -234,6 +238,7 @@ def requestBloodDonation():
     backButton = Button(Rcpmaster, text="Back", command=lambda: back(Rcpmaster))
     backButton.place(x = 250, y = 260)
 
+#New hospital registration window
 def RegisterNewHopsital():
 
     global HDmaster
