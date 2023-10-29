@@ -75,6 +75,7 @@ for i in range(2023, 2027):
 
 #     enter_btn =  Button(WMaster, text="Enter", font=("", 15),fg='white',bg='#ff2400', command=openHS)
 #     enter_btn.place(x=205, y=200)
+#x=20,y=20,50,80,110,140,170
 
 
 #home screen
@@ -86,20 +87,23 @@ def HomeScreen():
     HSMaster.resizable(False, False)
     HSMaster.configure(bg="#FFF")
 
-    addentrybutton = Button(HSMaster, text="Donate Blood", command=openAE)
-    addentrybutton.place(x=20, y=20)
-
-    displayDonorsBtn = Button(HSMaster, text="Display all donors", command=openDisplayerDonor)
-    displayDonorsBtn.place(x = 20, y  = 50)
-
-    registerNewHospitalBtn = Button(HSMaster, text="Register a new Hospital", command=openRegisterHosp)
-    registerNewHospitalBtn.place(x = 20, y  = 80)
-
     requestBloodDonationBtn = Button(HSMaster, text="Request Blood Donation", command=openRequestBloodDonation)
-    requestBloodDonationBtn.place(x = 20, y = 110)
+    requestBloodDonationBtn.place(x = 20, y = 20)
 
     displayrcpnt = Button(HSMaster, text="Display all recipients", command=opendisplayrecipients)
-    displayrcpnt.place(x = 20, y = 140)
+    displayrcpnt.place(x = 20, y = 50)
+
+    addentrybutton = Button(HSMaster, text="Donate Blood", command=openAE)
+    addentrybutton.place(x=20, y=80)
+
+    displayDonorsBtn = Button(HSMaster, text="Display all donors", command=openDisplayerDonor)
+    displayDonorsBtn.place(x = 20, y  = 110)
+
+    registerNewHospitalBtn = Button(HSMaster, text="Register a new Hospital", command=openRegisterHosp)
+    registerNewHospitalBtn.place(x = 20, y  = 140)
+    
+    displayHospitals = Button(HSMaster, text="List of Hospitals",command= opendisplayHospitals)
+    displayHospitals.place(x = 20, y  = 170)
 
     
     print(donors)
@@ -267,25 +271,28 @@ def RegisterNewHopsital():
     NameLbl = Label(HDmaster, fg="#000000", bg="#FFF", text="hospitalName: ", font=("", 13))
     NameLbl.place(x=10, y=100)
 
-    NameEntry = Entry(HDmaster, bg="#ffffff")
-    NameEntry.place(x = 180, y = 105)
+    hspNameEntry = Entry(HDmaster, bg="#ffffff")
+    hspNameEntry.place(x = 180, y = 105)
 
     NameLbl = Label(HDmaster, fg="#000000", bg="#FFF", text="Contact Person Name: ", font=("", 13))
     NameLbl.place(x=10, y=130)
 
-    NameEntry = Entry(HDmaster, bg="#ffffff")
-    NameEntry.place(x = 180, y = 135)
+    contctNameEntry = Entry(HDmaster, bg="#ffffff")
+    contctNameEntry.place(x = 180, y = 135)
 
     NameLbl = Label(HDmaster, fg="#000000", bg="#FFF", text="Contact number: ", font=("", 13))
     NameLbl.place(x=10, y=160)
 
-    NameEntry = Entry(HDmaster, bg="#ffffff")
-    NameEntry.place(x = 180, y = 165)
+    cntctnumEntry = Entry(HDmaster, bg="#ffffff")
+    cntctnumEntry.place(x = 180, y = 165)
     
-    Proceedbtn = Button(HDmaster, text="Proceed ")
+    Proceedbtn= Button(HDmaster, text="Proceed", command=lambda: Proceed_btn(
+        NameEntry.get(), hspNameEntry.get(), contctNameEntry.get(),
+        int(cntctnumEntry.get())
+    ))
     Proceedbtn.configure(highlightbackground="#000000")
     Proceedbtn.place(x=150, y=200)
-
+    
     backBtn = Button(HDmaster, text="Back", command=lambda: back(HDmaster))
     backBtn.place(x = 250, y=200)
 
@@ -313,6 +320,13 @@ def openRequestBloodDonation():
 def opendisplayrecipients():
     HSMaster.destroy()
     displayrecipients()
+
+def opendisplayHospitals():
+    HSMaster.destroy()
+    displayHospitals()
+    
+def Proceed_btn(Name,hspname,cntctname,Mobile):
+    hospitals.append([str(Name),str(hspname),str(cntctname),int(Mobile)])
 
 def add_entry(Id, Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
     donors.append([Id, str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
@@ -361,6 +375,27 @@ def displayrecipients():
 
     backBtn = Button(DRMaster, text="Back", command=lambda: back(DRMaster))
     backBtn.pack()
+
+def displayHospitals():
+    global HDMaster
+    HDMaster = Tk()
+    HDMaster.geometry("400x300+200+300")
+    HDMaster.title("Blood Bank Agency")
+    HDMaster.resizable(False, False)
+    HDMaster.configure(bg="#FFF")
+
+    titleLabel = Label(HDMaster, text="List of All Registered hospitals")
+    titleLabel.pack()
+
+    global hospitalList
+    hospitalList = Listbox(HDMaster, width=50)
+    for hospital in hospitals:
+        hospitalList.insert(END, hospital)
+    hospitalList.pack()
+
+    backBtn = Button(HDMaster, text="Back", command=lambda: back(HDMaster))
+    backBtn.pack()
+
 
 def back(_from):
     _from.destroy()

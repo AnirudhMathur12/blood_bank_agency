@@ -27,10 +27,10 @@ Recipient:
     Hospital ID*
 
 Structure:
-    Register a hospital
-    Display registered hospitals
+    Register a hospital*
+    Display registered hospitals*
     Donate Blood
     Ask for blood
-    Displace all donors
-    Display all recipients
+    Displace all donors*
+    Display all recipients*
 
