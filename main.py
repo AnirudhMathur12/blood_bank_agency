@@ -1,6 +1,7 @@
 '''#2c2c2c-greybg  #ff2400-red, text'''
 from tkinter import *
 from tkinter import ttk
+from PIL import ImageTk, Image
 
 # giving index numbers their own variable so it will be easier to call them and refer to them in code
 ID = 0
@@ -86,6 +87,10 @@ def HomeScreen():
     HSMaster.title("Blood Bank Agency")
     HSMaster.resizable(False, False)
     HSMaster.configure(bg="#FFF")
+
+    img = ImageTk.PhotoImage(Image.open("blood_bank_agency/bg.png"))
+    ImgLabel = Label(image=img)
+    ImgLabel.place(x=0, y=0)
 
     requestBloodDonationBtn = Button(HSMaster, text="Request Blood Donation", command=openRequestBloodDonation)
     requestBloodDonationBtn.place(x = 20, y = 20)
@@ -346,7 +351,7 @@ def displayDonors():
     titleLabel.pack()
 
     global donorsList
-    donorsList = Listbox(DDMaster, width=50)
+    donorsList = Listbox(DDMaster, width=12, )
     for donor in donors:
         donorsList.insert(END, donor)
     donorsList.pack()
