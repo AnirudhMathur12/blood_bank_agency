@@ -394,7 +394,6 @@ def displayHospitals():
     backBtn = Button(HDMaster, text="Back", command=lambda: back(HDMaster))
     backBtn.pack()
 
-
 def back(_from):
     _from.destroy()
     HomeScreen()
