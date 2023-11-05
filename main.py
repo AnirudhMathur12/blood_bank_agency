@@ -88,9 +88,15 @@ def HomeScreen():
     HSMaster.resizable(False, False)
     HSMaster.configure(bg="#FFF")
 
+    frame = Frame(HSMaster, width=600, height=400)
+    frame.pack()
+    frame.place(anchor='center', relx=0.5, rely=0.5)
+
     img = ImageTk.PhotoImage(Image.open("blood_bank_agency/bg.png"))
     ImgLabel = Label(HSMaster, image=img)
-    ImgLabel.pack()
+    ImgLabel.image = img
+    ImgLabel.grid(row=2)
+
     requestBloodDonationBtn = Button(HSMaster, text="Request Blood Donation", command=openRequestBloodDonation)
     requestBloodDonationBtn.place(x = 20, y = 20)
 
