@@ -138,13 +138,13 @@ def donate_blood():
     MobileNumLbl = Label(AEMaster, fg="#000000", bg="#FFF", text="Mobile Number: ", font=("", 11))
     MobileNumLbl.place(x=10, y=130)
 
-    MobileNumEntry = Entry(AEMaster, bg="#ffffff")
+    MobileNumEntry = Entry(AEMaster, bg="#ffffff", fg="black")
     MobileNumEntry.place(x = 155, y = 135)
 
     AddressLbl = Label(AEMaster, fg="#000000", bg="#FFF", text="Address: ", font=("", 11))
     AddressLbl.place(x=10, y=160)
 
-    AddressEntry = Entry(AEMaster, bg="#ffffff", width=35)
+    AddressEntry = Entry(AEMaster, bg="#ffffff", width=35, fg="black")
     AddressEntry.place(x = 155, y = 165)
 
     BldGrpLbl = Label(AEMaster, fg="#000000", bg="#FFF", text="Blood Group: ", font=("", 11))
@@ -194,20 +194,20 @@ def requestBloodDonation():
     NameLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Recipient Name: ", font=("", 13))
     NameLbl.place(x=10, y=70)
 
-    NameEntry = Entry(Rcpmaster, bg="#ffffff")
+    NameEntry = Entry(Rcpmaster, bg="#ffffff", fg="black")
     NameEntry.place(x = 155, y = 75)
 
-    AmntOfBloodLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Quantity recieved(ml): ", font=("", 11))
+    AmntOfBloodLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Quantity required(ml): ", font=("", 11))
     AmntOfBloodLbl.place(x=10, y=100)
 
-    AmntOfBloodEntry = Entry(Rcpmaster, bg="#ffffff")
+    AmntOfBloodEntry = Entry(Rcpmaster, bg="#ffffff", fg="black")
     AmntOfBloodEntry.place(x = 155, y = 105)
 
 
     MobileNumLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Mobile Number: ", font=("", 11))
     MobileNumLbl.place(x=10, y=130)
 
-    MobileNumEntry = Entry(Rcpmaster, bg="#ffffff")
+    MobileNumEntry = Entry(Rcpmaster, bg="#ffffff", fg="black")
     MobileNumEntry.place(x = 155, y = 135)
 
     HospIdLabel = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Hospital", font=("", 11))
@@ -331,7 +331,7 @@ def Proceed_btn(Name,hspname,cntctname,Mobile):
 def add_entry(Id, Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
     donors.append([Id, str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
 
-def  request_Blood(Id, Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
+def request_Blood(Id, Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
     Recipients.append([Id, str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
 
 def displayDonors():
@@ -354,8 +354,6 @@ def displayDonors():
     backBtn = Button(DDMaster, text="Back", command=lambda: back(DDMaster))
     backBtn.pack()
 
-
-
 def displayrecipients():
     global DRMaster
     DRMaster = Tk()
@@ -368,9 +366,9 @@ def displayrecipients():
     titleLabel.pack()
 
     global RecipientList
-    RecipientList = Listbox(DRMaster, width=50)
+    RecipientList = Listbox(DRMaster, width=12)
     for Recipient in Recipients:
-        RecipientList.insert(END, Recipient)
+        RecipientList.insert(END, str(Recipient[NAME]))
     RecipientList.pack()
 
     backBtn = Button(DRMaster, text="Back", command=lambda: back(DRMaster))
