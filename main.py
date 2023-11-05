@@ -89,9 +89,8 @@ def HomeScreen():
     HSMaster.configure(bg="#FFF")
 
     img = ImageTk.PhotoImage(Image.open("blood_bank_agency/bg.png"))
-    ImgLabel = Label(image=img)
-    ImgLabel.place(x=0, y=0)
-
+    ImgLabel = Label(HSMaster, image=img)
+    ImgLabel.pack()
     requestBloodDonationBtn = Button(HSMaster, text="Request Blood Donation", command=openRequestBloodDonation)
     requestBloodDonationBtn.place(x = 20, y = 20)
 
