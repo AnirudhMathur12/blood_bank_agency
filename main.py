@@ -89,7 +89,7 @@ def HomeScreen():
     HSMaster.resizable(False, False)
     HSMaster.configure(bg="#FFF")
 
-    img = ImageTk.PhotoImage(Image.open("bg.png").resize((500, 400), Image.ADAPTIVE))
+    img = ImageTk.PhotoImage(Image.open("blood_bank_agency/bg.png").resize((500, 400), Image.ADAPTIVE))
     ImgLabel = Label(HSMaster, image=img)
     ImgLabel.image = img
 
