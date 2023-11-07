@@ -81,6 +81,7 @@ for i in range(2023, 2027):
 
 #home screen
 def HomeScreen():
+    lastUniqueID = 0
     global HSMaster
     HSMaster = Tk()
     HSMaster.geometry("500x400+200+300")
@@ -88,13 +89,10 @@ def HomeScreen():
     HSMaster.resizable(False, False)
     HSMaster.configure(bg="#FFF")
 
-    frame = Frame(HSMaster, width=600, height=400)
-    frame.pack()
-    frame.place(anchor='center', relx=0.5, rely=0.5)
-
-    img = ImageTk.PhotoImage(Image.open("blood_bank_agency/bg.png"))
+    img = ImageTk.PhotoImage(Image.open("blood_bank_agency/bg.png").resize((500, 400), Image.ADAPTIVE))
     ImgLabel = Label(HSMaster, image=img)
     ImgLabel.image = img
+
     ImgLabel.grid(row=2)
 
     requestBloodDonationBtn = Button(HSMaster, text="Request Blood Donation", command=openRequestBloodDonation)
@@ -340,6 +338,8 @@ def Proceed_btn(Name,hspname,cntctname,Mobile):
 
 def add_entry(Id, Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
     donors.append([Id, str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
+    global lastUniqueID
+    lastUniqueID += 1
 
 def request_Blood(Id, Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
     Recipients.append([Id, str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
@@ -355,11 +355,15 @@ def displayDonors():
     titleLabel = Label(DDMaster, text="List of All donors")
     titleLabel.pack()
 
-    global donorsList
-    donorsList = Listbox(DDMaster, width=12, )
+    donorsIDList = Listbox(DDMaster, width=5)
+    donorsIDList.place(x=10, y=70)
     for donor in donors:
-        donorsList.insert(END, donor)
-    donorsList.pack()
+        donorsIDList.insert(END, donor[ID])
+
+    donorsNameList = Listbox(DDMaster, width=10)
+    donorsNameList.place(x = 50, y=70)
+    for donor in donors:
+        donorsNameList.insert(END, donor[NAME])
 
     backBtn = Button(DDMaster, text="Back", command=lambda: back(DDMaster))
     backBtn.pack()
