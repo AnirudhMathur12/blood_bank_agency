@@ -1,7 +1,7 @@
 '''#2c2c2c-greybg  #ff2400-red, text'''
 from tkinter import *
 from tkinter import ttk
-from PIL import ImageTk, Imageg
+from PIL import ImageTk, Image
 
 # giving index numbers their own variable so it will be easier to call them and refer to them in code
 ID = 0
@@ -89,7 +89,7 @@ def HomeScreen():
     HSMaster.resizable(False, False)
     HSMaster.configure(bg="#FFF")
 
-    img = ImageTk.PhotoImage(Image.open("blood_bank_agency/bg.png").resize((500, 400), Image.ADAPTIVE))
+    img = ImageTk.PhotoImage(Image.open("bg.png").resize((500, 400), Image.ADAPTIVE))
     ImgLabel = Label(HSMaster, image=img)
     ImgLabel.image = img
 
