@@ -39,7 +39,7 @@ month = [
     "June",
     "July",
     "August",
-    "Septmber",
+    "September",
     "October",
     "November",
     "December",
