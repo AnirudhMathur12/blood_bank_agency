@@ -357,21 +357,25 @@ def testDisplayDonors():
     TDDMaster.title("Blood Bank Agency")
     TDDMaster.resizable(False, False)
     TDDMaster.configure(bg="#FFF")
+    frame = Frame(TDDMaster)
+    frame.pack()
 
     choice = StringVar(TDDMaster)
-    testBox = ttk.Combobox(TDDMaster, textvariable=choice, values=["Browse", "Search"], width=4, state="readonly")
+    testBox = ttk.Combobox(frame, textvariable=choice, values=["Browse", "Search"], width=4, state="readonly")
     testBox.pack()
-    testBox.bind("<<ComboboxSelected>>", function)
+    testBox.bind("<<ComboboxSelected>>", lambda x : framemakyr(x, frame))
 
-    btn = Button(TDDMaster, text="")
-
-
-def function(event):
-    CmBox = event.widget.get()
-    global lbl
-    lbl = Label(TDDMaster, text=CmBox)
-    lbl.pack()
-
+def framemakyr(event, frame):
+    for i in frame.winfo_children():
+        i.destroy()
+    if event.widget.get() == "Browse":
+        lbl1 = Label(frame, text="Browse")
+        lbl1.pack()
+    elif event.widget.get() == "Search":
+        lbl2 = Label(frame, text="Search")
+        lbl2.pack()
+    else:
+        print("ntg")
 
 def displayDonors():
     global DDMaster
