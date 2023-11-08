@@ -113,7 +113,6 @@ def HomeScreen():
     displayHospitals = Button(HSMaster, text="List of Hospitals", command=opendisplayHospitals)
     displayHospitals.place(x=20, y=170)
 
-    print(donors)
 
 
 # donate blood window
@@ -361,16 +360,24 @@ def testDisplayDonors():
     frame.pack()
 
     choice = StringVar(TDDMaster)
-    testBox = ttk.Combobox(frame, textvariable=choice, values=["Browse", "Search"], width=4, state="readonly")
-    testBox.pack()
+    testBox = ttk.Combobox(TDDMaster, textvariable=choice, values=["Browse", "Search"], width=4, state="readonly")
+    testBox.pack(side=BOTTOM)
+    bck = Button(TDDMaster, text="Back", command=lambda: back(TDDMaster))
+    bck.pack(side=BOTTOM)
     testBox.bind("<<ComboboxSelected>>", lambda x : framemakyr(x, frame))
 
 def framemakyr(event, frame):
     for i in frame.winfo_children():
         i.destroy()
     if event.widget.get() == "Browse":
-        lbl1 = Label(frame, text="Browse")
-        lbl1.pack()
+        lst = Listbox(frame, width=12)
+        for i in donors:
+            lst.insert(END, str(i[ID]) + " " + str(i[NAME]))
+        lst.pack()
+        string = ""
+        if lst.size() != 0:
+            btn = Button(frame, text="Access", command= lambda: print(lst.get(lst.curselection()[0]).split(" ")[0]))
+            btn.pack()
     elif event.widget.get() == "Search":
         lbl2 = Label(frame, text="Search")
         lbl2.pack()
