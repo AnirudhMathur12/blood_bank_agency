@@ -4,16 +4,13 @@ from tkinter import ttk
 from PIL import ImageTk, Image
 
 # giving index numbers their own variable so it will be easier to call them and refer to them in code
-ID = 0
-NAME = 1
-PHONE_NUM = 2
-ADDRESS = 3
-BLOOD_GROUP = 4
-QTY = 5
-DATE = 6
-ASSOCIATED_HOSP = 7
 
-lastUniqueID = 0
+NAME = 0
+PHONE_NUM = 1
+ADDRESS = 2
+BLOOD_GROUP = 3
+QTY = 4
+DATE = 5
 
 # format:
 #    ID, name, phone number, address, blood group, quantity, date donated
@@ -113,6 +110,8 @@ def HomeScreen():
     displayHospitals = Button(HSMaster, text="List of Hospitals", command=opendisplayHospitals)
     displayHospitals.place(x=20, y=170)
 
+    print(donors)
+
 
 
 # donate blood window
@@ -124,10 +123,6 @@ def donate_blood():
     AEMaster.title("Blood Bank Agency")
     AEMaster.resizable(False, False)
     AEMaster.configure(bg="#FFF")
-
-    global lastUniqueID
-    UniqueID = Label(AEMaster, fg="#2c2c2c", bg="#FFF", text="Unique ID :" + str(lastUniqueID + 1), font=("", 13))
-    UniqueID.place(x=10, y=30)
 
     NameLbl = Label(AEMaster, fg="#000000", bg="#FFF", text="First Name: ", font=("", 13))
     NameLbl.place(x=10, y=70)
@@ -177,7 +172,7 @@ def donate_blood():
     yrdrpdown.place(x=320, y=220)
 
     addEntryBtn = Button(AEMaster, text="Add Entry", command=lambda: add_entry(
-        lastUniqueID + 1, NameEntry.get(), MobileNumEntry.get(), AddressEntry.get(),
+        NameEntry.get(), MobileNumEntry.get(), AddressEntry.get(),
         selected_blood_group.get(), AmntOfBloodEntry.get(), int(selected_date.get()),
         selected_month.get(), int(selected_year.get())
     ))
@@ -195,9 +190,6 @@ def requestBloodDonation():
     Rcpmaster.title("Blood Bank Agency")
     Rcpmaster.resizable(False, False)
     Rcpmaster.configure(bg="#FFF")
-
-    UniqueID = Label(Rcpmaster, fg="#2c2c2c", bg="#FFF", text=" Recipient ID :" + str(lastUniqueID + 1), font=("", 13))
-    UniqueID.place(x=10, y=30)
 
     NameLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Recipient Name: ", font=("", 13))
     NameLbl.place(x=10, y=70)
@@ -248,7 +240,7 @@ def requestBloodDonation():
     yrdrpdown.place(x=320, y=220)
 
     requestBlood = Button(Rcpmaster, text="Request Blood", command=lambda: request_Blood(
-        UniqueID, NameEntry.get(), AmntOfBloodEntry.get(), MobileNumEntry.get(),
+        NameEntry.get(), AmntOfBloodEntry.get(), MobileNumEntry.get(),
         selected_hospital.get(), selected_blood_group.get(), int(selected_date.get()),
         selected_month.get(), int(selected_year.get())
     ))
@@ -312,7 +304,7 @@ def openAE():
 
 def openDisplayDonor():
     HSMaster.destroy()
-    testDisplayDonors()
+    DisplayDonors()
 
 
 def openRegisterHosp():
@@ -339,30 +331,28 @@ def Proceed_btn(Name, hspname, cntctname, Mobile):
     hospitals.append([str(Name), str(hspname), str(cntctname), int(Mobile)])
 
 
-def add_entry(Id, Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
-    donors.append([Id, str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
-    global lastUniqueID
-    lastUniqueID += 1
+def add_entry(Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
+    donors.append([str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
 
 
-def request_Blood(Id, Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
-    Recipients.append([Id, str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
+def request_Blood(Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
+    Recipients.append([str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
 
 
-def testDisplayDonors():
-    global TDDMaster
-    TDDMaster = Tk()
-    TDDMaster.geometry("500x300+200+300")
-    TDDMaster.title("Blood Bank Agency")
-    TDDMaster.resizable(False, False)
-    TDDMaster.configure(bg="#FFF")
-    frame = Frame(TDDMaster)
+def DisplayDonors():
+    global DDMaster
+    DDMaster = Tk()
+    DDMaster.geometry("500x300+200+300")
+    DDMaster.title("Blood Bank Agency")
+    DDMaster.resizable(False, False)
+    DDMaster.configure(bg="#FFF")
+    frame = Frame(DDMaster)
     frame.pack()
 
-    choice = StringVar(TDDMaster)
-    testBox = ttk.Combobox(TDDMaster, textvariable=choice, values=["Browse", "Search"], width=4, state="readonly")
+    choice = StringVar(DDMaster)
+    testBox = ttk.Combobox(DDMaster, textvariable=choice, values=["Browse", "Search"], width=4, state="readonly")
     testBox.pack(side=BOTTOM)
-    bck = Button(TDDMaster, text="Back", command=lambda: back(TDDMaster))
+    bck = Button(DDMaster, text="Back", command=lambda: back(DDMaster))
     bck.pack(side=BOTTOM)
     testBox.bind("<<ComboboxSelected>>", lambda x : framemakyr(x, frame))
 
@@ -372,11 +362,11 @@ def framemakyr(event, frame):
     if event.widget.get() == "Browse":
         lst = Listbox(frame, width=12)
         for i in donors:
-            lst.insert(END, str(i[ID]) + " " + str(i[NAME]))
+            lst.insert(END, str(i[NAME]))
         lst.pack()
         string = ""
         if lst.size() != 0:
-            btn = Button(frame, text="Access", command= lambda: print(lst.get(lst.curselection()[0]).split(" ")[0]))
+            btn = Button(frame, text="Access", command= lambda: fn(lst))
             btn.pack()
     elif event.widget.get() == "Search":
         lbl2 = Label(frame, text="Search")
@@ -384,41 +374,44 @@ def framemakyr(event, frame):
     else:
         print("ntg")
 
-def displayDonors():
-    global DDMaster
-    DDMaster = Tk()
-    DDMaster.geometry("500x300+200+300")
-    DDMaster.title("Blood Bank Agency")
-    DDMaster.resizable(False, False)
+def fn(lst):
+    iD = lst.curselection()[0]
+    print(iD)
+    global DATAMaster
+    DATAMaster = Tk()
+    DATAMaster.geometry("350x150+200+300")
+    DATAMaster.title(donors[iD][NAME])
+    DATAMaster.resizable(False, False)
     DDMaster.configure(bg="#FFF")
 
-    titleLabel = Label(DDMaster, text="List of All donors")
-    titleLabel.pack()
+    nameLabel = Label(DATAMaster, text="Name:")
+    nameLabel.grid(row=0, column=0, sticky="w")
+    _nameLabel = Label(DATAMaster, text=donors[iD][NAME])
+    _nameLabel.grid(row=0, column=1, sticky="w")
 
-    ID_label = Label(DDMaster, text="Id")
-    ID_label.place(x=20, y=45)
+    phonenumLabel = Label(DATAMaster, text="Phone Number:")
+    phonenumLabel.grid(row=1, column=0, sticky="w")
+    _phonenumLabel = Label(DATAMaster, text=donors[iD][PHONE_NUM])
+    _phonenumLabel.grid(row=1, column=1, sticky="w")
 
-    Name_label = Label(DDMaster, text="Name")
-    Name_label.place(x=95, y=45)
+    bldgrpLabel = Label(DATAMaster, text="Blood Group:")
+    bldgrpLabel.grid(row=2, column=0, sticky="w")
+    _bdlgrpLabel = Label(DATAMaster, text=donors[iD][BLOOD_GROUP])
+    _bdlgrpLabel.grid(row=2,column=1, sticky="w")
 
-    donorsIDList = Listbox(DDMaster, width=5)
-    donorsIDList.place(x=10, y=70)
-    for donor in donors:
-        donorsIDList.insert(END, donor[ID])
+    qtyLabel = Label(DATAMaster, text="Quantity:")
+    qtyLabel.grid(row=2, column=2, sticky="w")
+    _qtyLabel = Label(DATAMaster, text=donors[iD][QTY])
+    _qtyLabel.grid(row=2, column=3, sticky="w")
 
-    donorsNameList = Listbox(DDMaster, width=15)
-    donorsNameList.place(x=50, y=70)
-    for donor in donors:
-        donorsNameList.insert(END, donor[NAME])
-
-    donorsPhoneNumberList = Listbox(DDMaster, width=9)
-    donorsPhoneNumberList.place(x=185, y=70)
-    for donor in donors:
-        donorsPhoneNumberList.insert(END, donor[PHONE_NUM])
-
-    backBtn = Button(DDMaster, text="Back", command=lambda: back(DDMaster))
-    backBtn.pack()
-
+    deleteEntryBtn = Button(DATAMaster, text="Delete Entry", command= lambda: remove_entry(donors, iD, DisplayDonors, DDMaster, DATAMaster))
+    deleteEntryBtn.grid(row=4, column=0)
+    
+def remove_entry(lst, index, fn, Master, self):
+    lst.remove(lst[index])
+    Master.destroy()
+    fn()
+    self.destroy()
 
 def displayrecipients():
     global DRMaster
@@ -468,5 +461,4 @@ def back(_from):
 
 
 HomeScreen()
-
 mainloop()
