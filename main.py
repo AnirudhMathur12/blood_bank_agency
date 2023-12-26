@@ -282,6 +282,7 @@ def RegisterNewHopsital():
 
     NameLbl = Label(HDmaster, fg="#000000", bg="#FFF", text="Contact number: ", font=("", 13))
     NameLbl.place(x=10, y=160)
+    
 
     cntctnumEntry = Entry(HDmaster, bg="#ffffff")
     cntctnumEntry.place(x=180, y=165)
@@ -296,6 +297,16 @@ def RegisterNewHopsital():
     backBtn = Button(HDmaster, text="Back", command=lambda: back(HDmaster))
     backBtn.place(x=250, y=200)
 
+
+def plusmsg():
+    global psmsg 
+    psmsg = Tk()
+    psmsg.geometry("400x250+200+300")
+    psmsg.title("sucess msg")
+    psmsg.resizable(False, False)
+    psmsg.configure(bg="#FFF")
+    NameLbl = Label(psmsg, fg="#000000", bg="#FFF", text=" Done sucessfully ", font=("", 13))
+    NameLbl.place(x=10, y=100)
 
 def openAE():
     HSMaster.destroy()
@@ -329,14 +340,26 @@ def opendisplayHospitals():
 
 def Proceed_btn(Name, hspname, cntctname, Mobile):
     hospitals.append([str(Name), str(hspname), str(cntctname), int(Mobile)])
+    HDmaster.destroy()
+    HomeScreen()
+    plusmsg()
+    
 
 
 def add_entry(Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
     donors.append([str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
+    AEMaster.destroy()
+    HomeScreen()
+    plusmsg()
+    
 
 
 def request_Blood(Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
     Recipients.append([str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
+    Rcpmaster.destroy()
+    HomeScreen()
+    plusmsg()
+    
 
 
 def DisplayDonors():
@@ -458,6 +481,7 @@ def displayHospitals():
 def back(_from):
     _from.destroy()
     HomeScreen()
+
 
 
 HomeScreen()
