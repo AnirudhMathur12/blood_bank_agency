@@ -112,6 +112,34 @@ def HomeScreen():
 
     print(donors)
 
+def LoginScreen():
+    global LSMaster
+    LSMaster = Tk()
+    LSMaster.geometry("300x150+200+300")
+    LSMaster.resizable(False, False)
+    LSMaster.configure(bg="#FFF")
+    UsrNameLabel = Label(LSMaster, text="Username: ", fg="black", bg="white", font=("", 15))
+    UsrNameLabel.place(x=10, y=10)
+    UsrNameField = Entry(LSMaster, bg="#ffffff", fg="#000000")
+    UsrNameField.place(x=100, y=10)
+    PssWrdLabel = Label(LSMaster, text="Password: ", fg="black", bg="white", font=("", 15))
+    PssWrdLabel.place(x=10, y=50)
+    PssWrdField = Entry(LSMaster, bg="#ffffff", fg="#000000")
+    PssWrdField.place(x=100, y=50)
+    LoginButton = Button(LSMaster, text="Login", command=lambda: Login(UsrNameField.get(), PssWrdField.get(), LSMaster))
+    LoginButton.place(x=10, y=100)
+
+def Login(Username, Password, Master):
+    username_file = open('usernames.txt', 'r')
+    str = username_file.read()
+    usernames = str.split("\n")
+    password_file = open('passwords.txt', 'r')
+    passwords = password_file.read().split("\n")
+    for i in range(len(usernames)):
+        if(usernames[i] == Username and passwords[i] == Password):
+                Master.destroy()
+                HomeScreen()
+                
 
 
 # donate blood window
@@ -490,5 +518,6 @@ def back(_from):
 
 
 
-HomeScreen()
+#HomeScreen()
+LoginScreen()
 mainloop()

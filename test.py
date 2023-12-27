@@ -1,0 +1,1 @@
+usernames_file = open("usernames.txt", 'r')
