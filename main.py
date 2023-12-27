@@ -153,7 +153,7 @@ def donate_blood():
     Asch.place(x=10, y=40)
 
     Asociated_hospitals = StringVar(AEMaster)
-    BloodGroup = ttk.Combobox(AEMaster, textvariable=Asociated_hospitals, values=hospitals, width=2,
+    BloodGroup = ttk.Combobox(AEMaster, textvariable=Asociated_hospitals, values=hospitals, width=10,
                               state="readonly")
     BloodGroup.place(x=155, y=40)
 
