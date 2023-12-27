@@ -92,8 +92,6 @@ def HomeScreen():
 
     ImgLabel.grid(row=2)
 
-    plusmsg()
-
     requestBloodDonationBtn = Button(HSMaster, text="Request Blood Donation", command=openRequestBloodDonation)
     requestBloodDonationBtn.place(x=20, y=20)
 
@@ -304,7 +302,6 @@ def plusmsg():
     global psmsg
     psmsg = Tk()
     psmsg.geometry("200x100+200+300")
-    psmsg.title("sucess msg")
     psmsg.resizable(False, False)
     psmsg.configure(bg="#FFF")
     NameLbl = Label(psmsg, fg="#000000", bg="#FFF", text=" Done sucessfully ", font=("", 13))
