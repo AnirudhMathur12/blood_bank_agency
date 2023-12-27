@@ -153,9 +153,9 @@ def donate_blood():
     Asch.place(x=10, y=40)
 
     Asociated_hospitals = StringVar(AEMaster)
-    BloodGroup = ttk.Combobox(AEMaster, textvariable=Asociated_hospitals, values=hospitals, width=2,
+    Associated_Hospitals = ttk.Combobox(AEMaster, textvariable=Asociated_hospitals, values=hospitals, width=5,
                               state="readonly")
-    BloodGroup.place(x=155, y=40)
+    Associated_Hospitals.place(x=155, y=40)
 
     BldGrpLbl = Label(AEMaster, fg="#000000", bg="#FFF", text="Blood Group: ", font=("", 11))
     BldGrpLbl.place(x=10, y=190) 
