@@ -124,6 +124,7 @@ def donate_blood():
     AEMaster.resizable(False, False)
     AEMaster.configure(bg="#FFF")
 
+
     NameLbl = Label(AEMaster, fg="#000000", bg="#FFF", text="First Name: ", font=("", 13))
     NameLbl.place(x=10, y=70)
 
@@ -148,8 +149,16 @@ def donate_blood():
     AddressEntry = Entry(AEMaster, bg="#ffffff", width=35, fg="black")
     AddressEntry.place(x=155, y=165)
 
+    Asch = Label(AEMaster, fg="#000000", bg="#FFF", text="Asociated hospitals: ", font=("", 11))
+    Asch.place(x=10, y=40)
+
+    Asociated_hospitals = StringVar(AEMaster)
+    BloodGroup = ttk.Combobox(AEMaster, textvariable=Asociated_hospitals, values=hospitals, width=2,
+                              state="readonly")
+    BloodGroup.place(x=155, y=40)
+
     BldGrpLbl = Label(AEMaster, fg="#000000", bg="#FFF", text="Blood Group: ", font=("", 11))
-    BldGrpLbl.place(x=10, y=190)
+    BldGrpLbl.place(x=10, y=190) 
 
     selected_blood_group = StringVar(AEMaster)
     BloodGroup = ttk.Combobox(AEMaster, textvariable=selected_blood_group, values=blood_groups, width=2,
