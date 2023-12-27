@@ -171,16 +171,17 @@ def donate_blood():
     yrdrpdown = ttk.Combobox(AEMaster, textvariable=selected_year, values=year, width=5, state="readonly")
     yrdrpdown.place(x=320, y=220)
 
+
     addEntryBtn = Button(AEMaster, text="Add Entry", command=lambda: add_entry(
         NameEntry.get(), MobileNumEntry.get(), AddressEntry.get(),
         selected_blood_group.get(), AmntOfBloodEntry.get(), int(selected_date.get()),
         selected_month.get(), int(selected_year.get())
-    ))
+        )
+    )
     addEntryBtn.place(x=150, y=260)
 
     backButton = Button(AEMaster, text="Back", command=lambda: back(AEMaster))
     backButton.place(x=250, y=260)
-
 
 # req blood donation window
 def requestBloodDonation():
@@ -297,9 +298,8 @@ def RegisterNewHopsital():
     backBtn = Button(HDmaster, text="Back", command=lambda: back(HDmaster))
     backBtn.place(x=250, y=200)
 
-
 def plusmsg():
-    global psmsg 
+    global psmsg
     psmsg = Tk()
     psmsg.geometry("400x250+200+300")
     psmsg.title("sucess msg")
@@ -307,6 +307,7 @@ def plusmsg():
     psmsg.configure(bg="#FFF")
     NameLbl = Label(psmsg, fg="#000000", bg="#FFF", text=" Done sucessfully ", font=("", 13))
     NameLbl.place(x=10, y=100)
+    
 
 def openAE():
     HSMaster.destroy()
@@ -340,25 +341,18 @@ def opendisplayHospitals():
 
 def Proceed_btn(Name, hspname, cntctname, Mobile):
     hospitals.append([str(Name), str(hspname), str(cntctname), int(Mobile)])
-    HDmaster.destroy()
-    HomeScreen()
-    plusmsg()
     
 
 
 def add_entry(Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
     donors.append([str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
-    AEMaster.destroy()
-    HomeScreen()
     plusmsg()
+
     
 
 
 def request_Blood(Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
     Recipients.append([str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
-    Rcpmaster.destroy()
-    HomeScreen()
-    plusmsg()
     
 
 
