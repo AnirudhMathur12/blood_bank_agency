@@ -47,9 +47,7 @@ year = []
 date = []
 
 hospitals = [
-    "Apollo",
-    "Fortis",
-    "Narayana"
+    [1,"Apollo","Anirudh",1234]
 ]
 
 for i in range(1, 32):
@@ -181,7 +179,10 @@ def donate_blood():
     Asch.place(x=10, y=40)
 
     Asociated_hospitals = StringVar(AEMaster)
-    Associated_Hospitals = ttk.Combobox(AEMaster, textvariable=Asociated_hospitals, values=hospitals, width=5,
+    hospnames = []
+    for i in hospitals:
+        hospnames.append(i[1])
+    Associated_Hospitals = ttk.Combobox(AEMaster, textvariable=Asociated_hospitals, values=hospnames, width=5,
                               state="readonly")
     Associated_Hospitals.place(x=155, y=40)
 
@@ -300,11 +301,11 @@ def RegisterNewHopsital():
 
     # options_menu(DEmaster)
 
-    NameLbl = Label(HDmaster, fg="#000000", bg="#FFF", text="hospital ID: ", font=("", 13))
-    NameLbl.place(x=10, y=70)
+    IdLbl = Label(HDmaster, fg="#000000", bg="#FFF", text="hospital ID: ", font=("", 13))
+    IdLbl.place(x=10, y=70)
 
-    NameEntry = Entry(HDmaster, bg="#ffffff")
-    NameEntry.place(x=180, y=70)
+    IdEntry = Entry(HDmaster, bg="#ffffff")
+    IdEntry.place(x=180, y=70)
 
     NameLbl = Label(HDmaster, fg="#000000", bg="#FFF", text="hospitalName: ", font=("", 13))
     NameLbl.place(x=10, y=100)
@@ -312,22 +313,22 @@ def RegisterNewHopsital():
     hspNameEntry = Entry(HDmaster, bg="#ffffff")
     hspNameEntry.place(x=180, y=105)
 
-    NameLbl = Label(HDmaster, fg="#000000", bg="#FFF", text="Contact Person Name: ", font=("", 13))
-    NameLbl.place(x=10, y=130)
+    ContactNameLbl = Label(HDmaster, fg="#000000", bg="#FFF", text="Contact Person Name: ", font=("", 13))
+    ContactNameLbl.place(x=10, y=130)
 
     contctNameEntry = Entry(HDmaster, bg="#ffffff")
     contctNameEntry.place(x=180, y=135)
 
-    NameLbl = Label(HDmaster, fg="#000000", bg="#FFF", text="Contact number: ", font=("", 13))
-    NameLbl.place(x=10, y=160)
+    cntctNamelbl = Label(HDmaster, fg="#000000", bg="#FFF", text="Contact number: ", font=("", 13))
+    cntctNamelbl.place(x=10, y=160)
     
 
     cntctnumEntry = Entry(HDmaster, bg="#ffffff")
     cntctnumEntry.place(x=180, y=165)
 
     Proceedbtn = Button(HDmaster, text="Proceed", command=lambda: Proceed_btn(
-        NameEntry.get(), hspNameEntry.get(), contctNameEntry.get(),
-        int(cntctnumEntry.get())
+        IdEntry.get(), hspNameEntry.get(), contctNameEntry.get(),
+        int(cntctnumEntry.get()), HDmaster
     ))
     Proceedbtn.configure(highlightbackground="#000000")
     Proceedbtn.place(x=150, y=200)
@@ -335,14 +336,14 @@ def RegisterNewHopsital():
     backBtn = Button(HDmaster, text="Back", command=lambda: back(HDmaster))
     backBtn.place(x=250, y=200)
 
-def plusmsg():
-    global psmsg
+def MessageBox(Message):
     psmsg = Tk()
     psmsg.geometry("200x100+200+300")
     psmsg.resizable(False, False)
     psmsg.configure(bg="#FFF")
-    NameLbl = Label(psmsg, fg="#000000", bg="#FFF", text=" Done sucessfully ", font=("", 13))
-    NameLbl.place(x=40, y=30)
+    psmsg.after(1, lambda: psmsg.focus_force())
+    NameLbl = Label(psmsg, fg="#000000", bg="#FFF", text=Message, font=("", 13))
+    NameLbl.pack(anchor=N)
     OkButton = Button(psmsg, text="Okay", command=lambda: psmsg.destroy())
     OkButton.place(x=60, y=60)
     
@@ -377,22 +378,31 @@ def opendisplayHospitals():
     displayHospitals()
 
 
-def Proceed_btn(Name, hspname, cntctname, Mobile):
-    hospitals.append([str(Name), str(hspname), str(cntctname), int(Mobile)])
-    plusmsg()
+def Proceed_btn(id, hspname, cntctname, Mobile, Master):
+    for i in hospitals:
+        if int(id) == i[0]:
+            MessageBox("Failiure, Hospital Already exists")
+            return
+    
+    hospitals.append([str(id), str(hspname), str(cntctname), int(Mobile)])
+    back(Master)
+    MessageBox("Success!")
+    print(hospitals)
     
 
 
 def add_entry(Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
     donors.append([str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
-    plusmsg()
+    back(AEMaster)
+    MessageBox("Success!")
+
 
     
 
 
-def request_Blood(Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
-    Recipients.append([str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
-    plusmsg()
+def request_Blood(Name, amntofbld, mobilenum, hosp, bldgrp, Date, Month, Year):
+    Recipients.append([str(Name), amntofbld, mobilenum, hosp, bldgrp, [Date, Month, Year]])
+    MessageBox("Success!")
     
 
 
@@ -405,31 +415,17 @@ def DisplayDonors():
     DDMaster.configure(bg="#FFF")
     frame = Frame(DDMaster)
     frame.pack()
+    backBtn = Button(DDMaster, text="Back", command=lambda: back(DDMaster))
+    backBtn.pack(anchor=S)
 
-    choice = StringVar(DDMaster)
-    testBox = ttk.Combobox(DDMaster, textvariable=choice, values=["Browse", "Search"], width=4, state="readonly")
-    testBox.pack(side=BOTTOM)
-    bck = Button(DDMaster, text="Back", command=lambda: back(DDMaster))
-    bck.pack(side=BOTTOM)
-    testBox.bind("<<ComboboxSelected>>", lambda x : framemakyr(x, frame))
-
-def framemakyr(event, frame):
-    for i in frame.winfo_children():
-        i.destroy()
-    if event.widget.get() == "Browse":
-        lst = Listbox(frame, width=12)
-        for i in donors:
-            lst.insert(END, str(i[NAME]))
-        lst.pack()
-        string = ""
-        if lst.size() != 0:
-            btn = Button(frame, text="Access", command= lambda: fn(lst))
-            btn.pack()
-    elif event.widget.get() == "Search":
-        lbl2 = Label(frame, text="Search")
-        lbl2.pack()
-    else:
-        print("ntg")
+    lst = Listbox(frame, width=12)
+    for i in donors:
+        lst.insert(END, str(i[NAME]))
+    lst.pack()
+    string = ""
+    if lst.size() != 0:
+        btn = Button(frame, text="Access", command= lambda: fn(lst))
+        btn.pack()
 
 def fn(lst):
     iD = lst.curselection()[0]
@@ -463,7 +459,7 @@ def fn(lst):
 
     deleteEntryBtn = Button(DATAMaster, text="Delete Entry", command= lambda: remove_entry(donors, iD, DisplayDonors, DDMaster, DATAMaster))
     deleteEntryBtn.grid(row=4, column=0)
-    
+
 def remove_entry(lst, index, fn, Master, self):
     lst.remove(lst[index])
     Master.destroy()
@@ -471,46 +467,125 @@ def remove_entry(lst, index, fn, Master, self):
     self.destroy()
 
 def displayrecipients():
+    print(hospitals)
     global DRMaster
     DRMaster = Tk()
-    DRMaster.geometry("400x300+200+300")
+    DRMaster.geometry("500x300+200+300")
     DRMaster.title("Blood Bank Agency")
     DRMaster.resizable(False, False)
     DRMaster.configure(bg="#FFF")
-
-    titleLabel = Label(DRMaster, text="List of All Recipients")
-    titleLabel.pack()
-
-    global RecipientList
-    RecipientList = Listbox(DRMaster, width=12)
-    for Recipient in Recipients:
-        RecipientList.insert(END, str(Recipient[NAME]))
-    RecipientList.pack()
-
+    frame = Frame(DRMaster)
+    frame.pack()
     backBtn = Button(DRMaster, text="Back", command=lambda: back(DRMaster))
-    backBtn.pack()
+    backBtn.pack(anchor=S)
 
+    lst = Listbox(frame, width=12)
+    for i in hospitals:
+        lst.insert(END, str(i[1]))
+    lst.pack()
+    if lst.size() != 0:
+        btn = Button(frame, text="Access", command= lambda: fn_forRecipient(lst))
+        btn.pack()
+
+def fn_forRecipient(lst):
+    iD = int(lst.curselection()[0])
+    print("Id", iD)
+    global DATAMaster
+    DATAMaster = Tk()
+    DATAMaster.geometry("350x150+200+300")
+    DATAMaster.title(hospitals[iD][1])
+    DATAMaster.resizable(False, False)
+    #DATAMaster.configure(bg="black")
+
+    nameLabel = Label(DATAMaster, text="Name:")
+    nameLabel.grid(row=0, column=0, sticky="w")
+    name = hospitals[iD][1]
+    _nameLabel = Label(DATAMaster, text=hospitals[iD][1])
+    _nameLabel.grid(row=0, column=1, sticky="w")
+
+    idlabel = Label(DATAMaster, text="Id:")
+    idlabel.grid(row=1, column=0, sticky="w")
+    _idlabel = Label(DATAMaster, text=hospitals[iD][0])
+    _idlabel.grid(row=1, column=1, sticky="w")
+
+    cntctLabel = Label(DATAMaster, text="Contact Person:")
+    cntctLabel.grid(row=2, column=0, sticky="w")
+    _cntctLabel = Label(DATAMaster, text=hospitals[iD][2])
+    _cntctLabel.grid(row=2,column=1, sticky="w")
+
+    phnumlabel = Label(DATAMaster, text="Contact Number:")
+    phnumlabel.grid(row=2, column=2, sticky="w")
+    _phnumlabel = Label(DATAMaster, text=hospitals[iD][3])
+    _phnumlabel.grid(row=2, column=3, sticky="w")
+
+    deleteEntryBtn = Button(DATAMaster, text="Delete Entry", command= lambda: remove_for_hosp(name, displayHospitals, DHMaster, DATAMaster))
+    deleteEntryBtn.grid(row=4, column=0)
 
 def displayHospitals():
-    global HDMaster
-    HDMaster = Tk()
-    HDMaster.geometry("400x300+200+300")
-    HDMaster.title("Blood Bank Agency")
-    HDMaster.resizable(False, False)
-    HDMaster.configure(bg="#FFF")
+    print(hospitals)
+    global DHMaster
+    DHMaster = Tk()
+    DHMaster.geometry("500x300+200+300")
+    DHMaster.title("Blood Bank Agency")
+    DHMaster.resizable(False, False)
+    DHMaster.configure(bg="#FFF")
+    frame = Frame(DHMaster)
+    frame.pack()
+    backBtn = Button(DHMaster, text="Back", command=lambda: back(DHMaster))
+    backBtn.pack(anchor=S)
 
-    titleLabel = Label(HDMaster, text="List of All Registered hospitals")
-    titleLabel.pack()
+    lst = Listbox(frame, width=12)
+    for i in hospitals:
+        lst.insert(END, str(i[1]))
+    lst.pack()
+    if lst.size() != 0:
+        btn = Button(frame, text="Access", command= lambda: fn_forhosp(lst))
+        btn.pack()
 
-    global hospitalList
-    hospitalList = Listbox(HDMaster, width=50)
-    for hospital in hospitals:
-        hospitalList.insert(END, hospital)
-    hospitalList.pack()
+def fn_forhosp(lst):
+    iD = int(lst.curselection()[0])
+    print("Id", iD)
+    global DATAMaster
+    DATAMaster = Tk()
+    DATAMaster.geometry("350x150+200+300")
+    DATAMaster.title(hospitals[iD][1])
+    DATAMaster.resizable(False, False)
+    #DATAMaster.configure(bg="black")
 
-    backBtn = Button(HDMaster, text="Back", command=lambda: back(HDMaster))
-    backBtn.pack()
+    nameLabel = Label(DATAMaster, text="Name:")
+    nameLabel.grid(row=0, column=0, sticky="w")
+    name = hospitals[iD][1]
+    _nameLabel = Label(DATAMaster, text=hospitals[iD][1])
+    _nameLabel.grid(row=0, column=1, sticky="w")
 
+    idlabel = Label(DATAMaster, text="Id:")
+    idlabel.grid(row=1, column=0, sticky="w")
+    _idlabel = Label(DATAMaster, text=hospitals[iD][0])
+    _idlabel.grid(row=1, column=1, sticky="w")
+
+    cntctLabel = Label(DATAMaster, text="Contact Person:")
+    cntctLabel.grid(row=2, column=0, sticky="w")
+    _cntctLabel = Label(DATAMaster, text=hospitals[iD][2])
+    _cntctLabel.grid(row=2,column=1, sticky="w")
+
+    phnumlabel = Label(DATAMaster, text="Contact Number:")
+    phnumlabel.grid(row=2, column=2, sticky="w")
+    _phnumlabel = Label(DATAMaster, text=hospitals[iD][3])
+    _phnumlabel.grid(row=2, column=3, sticky="w")
+
+    deleteEntryBtn = Button(DATAMaster, text="Delete Entry", command= lambda: remove_for_hosp(name, displayHospitals, DHMaster, DATAMaster))
+    deleteEntryBtn.grid(row=4, column=0)
+
+def remove_for_hosp(hosp_name, fn, Master, self):
+    for i in hospitals:
+        if hosp_name in i:
+            hospitals.remove(i)
+            break
+    print(hospitals)
+    Master.destroy()
+    fn()
+    self.destroy()
+    
 
 def back(_from):
     _from.destroy()
@@ -518,6 +593,6 @@ def back(_from):
 
 
 
-#HomeScreen()
-LoginScreen()
+HomeScreen()
+#LoginScreen()
 mainloop()
