@@ -16,16 +16,16 @@ DATE = 5
 #    ID, name, phone number, address, blood group, quantity, date donated
 donors = []
 Recipients = [['Gopal', 120, 12345, 'Narayana', 'A+', [11, "December", 2017]]]
-blood_groups = [
-    "A+",
-    "A-",
-    "B+",
-    "B-",
-    "O+",
-    "O-",
-    "AB+",
-    "AB-"
-]
+blood_groups = {
+    "A+": 0,
+    "A-": 0,
+    "B+": 0,
+    "B-": 0,
+    "O+": 0,
+    "O-": 0,
+    "AB+": 0,
+    "AB-": 0
+}
 
 month = [
     "January",
@@ -76,6 +76,7 @@ for i in range(2023, 2027):
 
 # home screen
 def HomeScreen():
+    print(blood_groups)
     lastUniqueID = 0
     global HSMaster
     HSMaster = Tk()
@@ -190,7 +191,7 @@ def donate_blood():
     BldGrpLbl.place(x=10, y=190) 
 
     selected_blood_group = StringVar(AEMaster)
-    BloodGroup = ttk.Combobox(AEMaster, textvariable=selected_blood_group, values=blood_groups, width=2,
+    BloodGroup = ttk.Combobox(AEMaster, textvariable=selected_blood_group, values=list(blood_groups.keys()), width=2,
                               state="readonly")
     BloodGroup.place(x=155, y=190)
 
@@ -251,14 +252,17 @@ def requestBloodDonation():
     HospIdLabel.place(x=10, y=160)
 
     selected_hospital = StringVar(Rcpmaster)
-    HospIDDropBox = ttk.Combobox(Rcpmaster, textvariable=selected_hospital, values=hospitals, width=7, state="readonly")
+    hspnames = []
+    for i in hospitals:
+        hspnames.append(i[1])
+    HospIDDropBox = ttk.Combobox(Rcpmaster, textvariable=selected_hospital, values=hspnames, width=7, state="readonly")
     HospIDDropBox.place(x=155, y=165)
 
     BldGrpLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Bloodgrp recieved: ", font=("", 11))
     BldGrpLbl.place(x=10, y=190)
 
     selected_blood_group = StringVar(Rcpmaster)
-    BloodGroup = ttk.Combobox(Rcpmaster, textvariable=selected_blood_group, values=blood_groups, width=2,
+    BloodGroup = ttk.Combobox(Rcpmaster, textvariable=selected_blood_group, values=list(blood_groups.keys()), width=2,
                               state="readonly")
     BloodGroup.place(x=155, y=190)
 
@@ -379,7 +383,7 @@ def opendisplayHospitals():
 
 
 def Proceed_btn(id, hspname, cntctname, Mobile, Master):
-    for i in hospitals:
+    for i in hospitals: 
         if int(id) == i[0]:
             MessageBox("Failiure, Hospital Already exists")
             return
@@ -392,6 +396,7 @@ def Proceed_btn(id, hspname, cntctname, Mobile, Master):
 
 
 def add_entry(Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
+    blood_groups[str(Blood_Group)] += int(Quantity)
     donors.append([str(Name), Mobile, Address, Blood_Group, Quantity, [Date, Month, Year]])
     back(AEMaster)
     MessageBox("Success!")
@@ -401,8 +406,13 @@ def add_entry(Name, Mobile, Address, Blood_Group, Quantity, Date, Month, Year):
 
 
 def request_Blood(Name, amntofbld, mobilenum, hosp, bldgrp, Date, Month, Year):
+    if blood_groups[str(bldgrp)] < int(amntofbld):
+        MessageBox("Enough blood not available!")
+        back(Rcpmaster)
+        return
     Recipients.append([str(Name), amntofbld, mobilenum, hosp, bldgrp, [Date, Month, Year]])
     MessageBox("Success!")
+    back(Rcpmaster)
     
 
 
