@@ -15,7 +15,7 @@ DATE = 5
 # format:
 #    ID, name, phone number, address, blood group, quantity, date donated
 donors = []
-Recipients = []
+Recipients = [['Gopal', 120, 12345, 'Narayana', 'A+', [11, "December", 2017]]]
 blood_groups = [
     "A+",
     "A-",
@@ -480,8 +480,8 @@ def displayrecipients():
     backBtn.pack(anchor=S)
 
     lst = Listbox(frame, width=12)
-    for i in hospitals:
-        lst.insert(END, str(i[1]))
+    for i in Recipients:
+        lst.insert(END, str(i[0]))
     lst.pack()
     if lst.size() != 0:
         btn = Button(frame, text="Access", command= lambda: fn_forRecipient(lst))
@@ -493,30 +493,30 @@ def fn_forRecipient(lst):
     global DATAMaster
     DATAMaster = Tk()
     DATAMaster.geometry("350x150+200+300")
-    DATAMaster.title(hospitals[iD][1])
+    DATAMaster.title(Recipients[iD][1])
     DATAMaster.resizable(False, False)
     #DATAMaster.configure(bg="black")
 
     nameLabel = Label(DATAMaster, text="Name:")
     nameLabel.grid(row=0, column=0, sticky="w")
-    name = hospitals[iD][1]
-    _nameLabel = Label(DATAMaster, text=hospitals[iD][1])
+    name = Recipients[iD][1]
+    _nameLabel = Label(DATAMaster, text=Recipients[iD][0])
     _nameLabel.grid(row=0, column=1, sticky="w")
 
-    idlabel = Label(DATAMaster, text="Id:")
-    idlabel.grid(row=1, column=0, sticky="w")
-    _idlabel = Label(DATAMaster, text=hospitals[iD][0])
-    _idlabel.grid(row=1, column=1, sticky="w")
+    amntbldlabel = Label(DATAMaster, text="Blood Requested:")
+    amntbldlabel.grid(row=1, column=0, sticky="w")
+    _amntbldlabel = Label(DATAMaster, text=Recipients[iD][1])
+    _amntbldlabel.grid(row=1, column=1, sticky="w")
 
-    cntctLabel = Label(DATAMaster, text="Contact Person:")
-    cntctLabel.grid(row=2, column=0, sticky="w")
-    _cntctLabel = Label(DATAMaster, text=hospitals[iD][2])
-    _cntctLabel.grid(row=2,column=1, sticky="w")
+    numberlabel = Label(DATAMaster, text="Contact Person:")
+    numberlabel.grid(row=2, column=0, sticky="w")
+    _numberlabel = Label(DATAMaster, text=Recipients[iD][2])
+    _numberlabel.grid(row=2,column=1, sticky="w")
 
-    phnumlabel = Label(DATAMaster, text="Contact Number:")
-    phnumlabel.grid(row=2, column=2, sticky="w")
-    _phnumlabel = Label(DATAMaster, text=hospitals[iD][3])
-    _phnumlabel.grid(row=2, column=3, sticky="w")
+    hsplabel = Label(DATAMaster, text="Contact Number:")
+    hsplabel.grid(row=2, column=2, sticky="w")
+    _hsplabel = Label(DATAMaster, text=Recipients[iD][3])
+    _hsplabel.grid(row=2, column=3, sticky="w")
 
     deleteEntryBtn = Button(DATAMaster, text="Delete Entry", command= lambda: remove_for_hosp(name, displayHospitals, DHMaster, DATAMaster))
     deleteEntryBtn.grid(row=4, column=0)
@@ -593,6 +593,6 @@ def back(_from):
 
 
 
-HomeScreen()
-#LoginScreen()
+#HomeScreen()
+LoginScreen()
 mainloop()
