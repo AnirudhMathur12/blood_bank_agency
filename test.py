@@ -1,1 +1,2 @@
-usernames_file = open("usernames.txt", 'r')
+username_file = open("usernames.txt", 'a')
+username_file.write("haha\n")

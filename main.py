@@ -109,7 +109,14 @@ def HomeScreen():
     displayHospitals = Button(HSMaster, text="List of Hospitals", command=opendisplayHospitals)
     displayHospitals.place(x=20, y=170)
 
+    logoutButton = Button(HSMaster, text="Logout", command=logout)
+    logoutButton.place(x=20, y=350)
+
     print(donors)
+
+def logout():
+    HSMaster.destroy()
+    LoginScreen()
 
 def LoginScreen():
     global LSMaster
@@ -123,10 +130,12 @@ def LoginScreen():
     UsrNameField.place(x=100, y=10)
     PssWrdLabel = Label(LSMaster, text="Password: ", fg="black", bg="white", font=("", 15))
     PssWrdLabel.place(x=10, y=50)
-    PssWrdField = Entry(LSMaster, bg="#ffffff", fg="#000000")
+    PssWrdField = Entry(LSMaster, bg="#ffffff", fg="#000000", show="*")
     PssWrdField.place(x=100, y=50)
     LoginButton = Button(LSMaster, text="Login", command=lambda: Login(UsrNameField.get(), PssWrdField.get(), LSMaster))
     LoginButton.place(x=10, y=100)
+    SignUpButton = Button(LSMaster, text="Sign Up", command=SignUpScreen)
+    SignUpButton.place(x=150, y=100)
 
 def Login(Username, Password, Master):
     username_file = open('usernames.txt', 'r')
@@ -138,8 +147,41 @@ def Login(Username, Password, Master):
         if(usernames[i] == Username and passwords[i] == Password):
                 Master.destroy()
                 HomeScreen()
-                
+                break
+    else:
+            MessageBox("Password or Username is wrong")
 
+def SignUpScreen():
+    LSMaster.destroy()
+    global SUMaster
+    SUMaster = Tk()
+    SUMaster.geometry("300x150+200+300")
+    SUMaster.resizable(False, False)
+    SUMaster.configure(bg="#FFF")
+    UsrNameLabel = Label(SUMaster, text="Username: ", fg="black", bg="white", font=("", 15))
+    UsrNameLabel.place(x=10, y=10)
+    UsrNameField = Entry(SUMaster, bg="#ffffff", fg="#000000")
+    UsrNameField.place(x=100, y=10)
+    PssWrdLabel = Label(SUMaster, text="Password: ", fg="black", bg="white", font=("", 15))
+    PssWrdLabel.place(x=10, y=50)
+    PssWrdField = Entry(SUMaster, bg="#ffffff", fg="#000000", show="*")
+    PssWrdField.place(x=100, y=50)
+    LoginButton = Button(SUMaster, text="Sign Up", command=lambda: SignUp(UsrNameField.get(), PssWrdField.get()))
+    LoginButton.place(x=10, y=100)
+
+def SignUp(username, password):
+    username_file = open('usernames.txt', 'r')
+    str = username_file.read()
+    usernames = str.split("\n")
+    if username in usernames:
+        MessageBox("Username already exists!")
+        return
+    username_file = open('usernames.txt', 'a')
+    username_file.write(username + "\n")
+    password_file = open('passwords.txt', 'a')
+    password_file.write(password+'\n')
+    LoginScreen()
+    SUMaster.destroy()
 
 # donate blood window
 def donate_blood():
