@@ -1,0 +1,36 @@
+Blood:
+    Blood grp
+    Quantity
+
+Hospital:
+    hospitalID*
+    hospitalName*
+    Contact Person Name*
+    Contact number*
+
+Donor:
+    donorid *
+    donor name *
+    donor mobile *
+    donor address *
+    donor blood group*
+    Quantity*
+    Date Donated*
+    Associated Hospital ?
+
+Recipient:
+    ID*
+    Name*
+    Phone Number*
+    Recieving date*
+    Quantity*
+    Hospital ID*
+
+Structure:
+    Register a hospital*
+    Display registered hospitals*
+    Donate Blood
+    Ask for blood
+    Displace all donors*
+    Display all recipients*
+

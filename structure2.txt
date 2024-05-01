@@ -1,0 +1,38 @@
+HomeScreen-
+    donate_blood
+    displayDonors
+    RegisterNewHopsital
+    requestBloodDonation
+    
+donate_blood-
+    UniqueID
+    Firstname
+    AmntOfBlood
+    MobileNum
+    Address
+    Blood_Group-select
+    Date-select
+
+displayDonors-
+    Display-backButton
+
+RegisterNewHopsital-
+    hospitalID
+    hospitalName
+    Contactperson
+    Contactno.
+    Proceed,back-Button
+
+requestBloodDonation-
+    recipientid
+    recipientname
+    quantity
+    mobile
+    hospital-select
+    bloodgrprecieved-select
+    date-select
+    rqblood-button,back-button
+
+Display all recipients-
+
+
