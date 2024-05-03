@@ -80,9 +80,6 @@ for i in range(2023, 2027):
 
 # home screen
 
-def on_closing():
-    print("yay")
-
 def HomeScreen():
     print(blood_groups)
     global HSMaster
@@ -92,7 +89,6 @@ def HomeScreen():
     HSMaster.resizable(False, False)
     HSMaster.configure(bg="#FFF")
 
-    HSMaster.protocol("WM_DELETE_WINDOW", on_closing)
 
     canvas = Canvas(HSMaster, width=500, height=400)
     canvas.pack()
@@ -483,7 +479,7 @@ def add_entry(Name, Mobile, Blood_Group, Quantity):
         cur.execute("CREATE TABLE Donated_BloodBBA(DonorID INT AUTO_INCREMENT PRIMARY KEY, Name VARCHAR(30), Mobile BIGINT, BloodGroup VARCHAR(5), Quantity INT, Date DATE)")
         cur.execute("commit")
     cur.execute("INSERT INTO Donated_BloodBBA(Name, Mobile, BloodGroup, Quantity, Date) VALUES(%s, %s, %s, %s, NOW())", (Name, Mobile, Blood_Group, Quantity))
-    cur.execute("UPDATE " + blood_group_table  + " SET Amount = Amount + " + str(Quantity) + " WHERE TYPE = " + Blood_Group + " ")
+    cur.execute("UPDATE Blood_GroupsBBA SET Amount = Amount + %s WHERE TYPE = %s", (Quantity, Blood_Group))
     cur.execute("commit")
 
 
@@ -706,9 +702,9 @@ def SQL_INIT():
         cur.execute("commit")
     cur.close()
 
-#os.system("mysql.server start")
+os.system("mysql.server start")
 SQL_INIT()
 #LoginScreen()
 donate_blood()
 mainloop()
-#os.system("mysql.server stop")
+os.system("mysql.server stop")
