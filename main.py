@@ -171,10 +171,6 @@ def Login(Username, Password, Master):
     cur = login_connection.cursor()
     cur.execute("SHOW TABLES")
     result = cur.fetchall()
-    if ("Login_CredentialsBBA",) not in result:
-        cur.execute(
-            "CREATE TABLE Login_CredentialsBBA(UserID INT AUTO_INCREMENT PRIMARY KEY, Username VARCHAR(50), Password VARCHAR(50))"
-        )
     cur.execute(
         "SELECT UserID FROM Login_CredentialsBBA WHERE Username = %s AND Password = %s",
         (Username, Password),
@@ -239,11 +235,6 @@ def SignUp(username, password):
     cur = signup_connection.cursor()
     cur.execute("SHOW TABLES")
     result = cur.fetchall()
-    if ("Login_CredentialsBBA",) not in result:
-        cur.execute(
-            "CREATE TABLE Login_CredentialsBBA (UserID INT AUTO_INCREMENT PRIMARY KEY, Username VARCHAR(50), Password VARCHAR(50))",
-            (table_name,),
-        )
     cur.execute("SELECT * FROM Login_CredentialsBBA WHERE Username = %s", (username,))
     result = cur.fetchall()
     if len(result) != 0:
@@ -525,46 +516,25 @@ def open(fn):
 
 
 def add_hosp(hspname, cntctname, Mobile, Master):
-    """
-    for i in hospitals:
-        if int(id) == i[0]:
-            MessageBox("Failiure, Hospital Already exists")
-            return
-
-    hospitals.append([str(id), str(hspname), str(cntctname), int(Mobile)])
-    back(Master)
-    """
     con = cnctr.connect(
         host="localhost", user="root", password="", db="BloodBankAgency"
     )
     cur = con.cursor()
-    cur.execute("SHOW TABLES")
-    result = cur.fetchall()
-    if ("HospitalsBBA",) not in result:
-        cur.execute(
-            "CREATE TABLE HospitalsBBA(HospitalID INT AUTO_INCREMENT PRIMARY KEY, Name VARCHAR(30), Representative VARCHAR(30), Mobile BIGINT)"
-        )
-        cur.execute("commit")
     cur.execute(
         "INSERT INTO HospitalsBBA(Name, Representative, Mobile) VALUES(%s, %s, %s)",
         (hspname, cntctname, Mobile),
     )
     cur.execute("commit")
+    cur.close()
     MessageBox("Success!")
+    back(Master)
 
 
-def add_entry(Name, Mobile, Blood_Group, Quantity):
+def add_entry(Name, Mobile, Blood_Group, Quantity, Master):
     con = cnctr.connect(
         host="localhost", user="root", password="", db="BloodBankAgency"
     )
     cur = con.cursor()
-    cur.execute("SHOW TABLES")
-    result = cur.fetchall()
-    if ("Donated_BloodBBA",) not in result:
-        cur.execute(
-            "CREATE TABLE Donated_BloodBBA(DonorID INT AUTO_INCREMENT PRIMARY KEY, Name VARCHAR(30), Mobile BIGINT, BloodGroup VARCHAR(5), Quantity INT, Date DATE)"
-        )
-        cur.execute("commit")
     cur.execute(
         "INSERT INTO Donated_BloodBBA(Name, Mobile, BloodGroup, Quantity, Date) VALUES(%s, %s, %s, %s, NOW())",
         (Name, Mobile, Blood_Group, Quantity),
@@ -576,6 +546,7 @@ def add_entry(Name, Mobile, Blood_Group, Quantity):
     cur.execute("commit")
     MessageBox("Success!")
     cur.close()
+    back(Master)
 
 
 def request_Blood(Name, amntofbld, mobilenum, hosp, bldgrp, Date, Month, Year):
@@ -583,13 +554,6 @@ def request_Blood(Name, amntofbld, mobilenum, hosp, bldgrp, Date, Month, Year):
         host="localhost", user="root", password="", db="BloodBankAgency"
     )
     cur = con.cursor()
-    cur.execute("SHOW TABLES")
-    result = cur.fetchall()
-    if ("RequestsBBA",) not in result:
-        cur.execute(
-            "CREATE TABLE RequestsBBA(RequestID INT AUTO_INCREMENT PRIMARY KEY, Name VARCHAR(30), Quantity INT, Mobile BIGINT, BloodGroup VARCHAR(5), Date DATE)"
-        )
-        cur.execute("commit")
     cur.execute("SELECT Amount FROM Blood_GroupsBBA WHERE Type = %s", (bldgrp,))
     result = cur.fetchall()
     if result[0][0] < amntofbld:
@@ -606,10 +570,6 @@ def request_Blood(Name, amntofbld, mobilenum, hosp, bldgrp, Date, Month, Year):
     )
     cur.execute("commit")
     cur.close()
-    """
-    Recipients.append([str(Name), amntofbld, mobilenum, hosp, bldgrp, [Date, Month, Year]])
-    """
-
     MessageBox("Success!")
     back(Rcpmaster)
 
@@ -899,7 +859,24 @@ def SQL_INIT():
         cur.execute(
             "INSERT INTO Blood_GroupsBBA(Type) VALUES('A+'), ('A-'), ('B+'), ('B-'), ('AB+'), ('AB-'), ('O+'), ('O-')"
         )
-        cur.execute("commit")
+    if ("Login_CredentialsBBA",) not in result:
+        cur.execute(
+            "CREATE TABLE Login_CredentialsBBA(UserID INT AUTO_INCREMENT PRIMARY KEY, Username VARCHAR(50), Password VARCHAR(50))"
+        )
+    if ("HospitalsBBA",) not in result:
+        cur.execute(
+            "CREATE TABLE HospitalsBBA(HospitalID INT AUTO_INCREMENT PRIMARY KEY, Name VARCHAR(30), Representative VARCHAR(30), Mobile BIGINT)"
+        )
+    if ("RequestsBBA",) not in result:
+        cur.execute(
+            "CREATE TABLE RequestsBBA(RequestID INT AUTO_INCREMENT PRIMARY KEY, Name VARCHAR(30), Quantity INT, Mobile BIGINT, BloodGroup VARCHAR(5), Date DATE)"
+        )
+    if ("Donated_BloodBBA",) not in result:
+        cur.execute(
+            "CREATE TABLE Donated_BloodBBA(DonorID INT AUTO_INCREMENT PRIMARY KEY, Name VARCHAR(30), Mobile BIGINT, BloodGroup VARCHAR(5), Quantity INT, Date DATE)"
+        )
+
+    cur.execute("commit")
     cur.close()
 
 
