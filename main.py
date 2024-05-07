@@ -5,79 +5,12 @@ from tkinter import ttk
 import mysql.connector as cnctr
 import os
 
-# giving index numbers their own variable so it will be easier to call them and refer to them in code
-
-NAME = 0
-PHONE_NUM = 1
-ADDRESS = 2
-BLOOD_GROUP = 3
-QTY = 4
-DATE = 5
-
-
-# format:
-#    ID, name, phone number, address, blood group, quantity, date donated
-blood_groups = {
-    "A+": 0,
-    "A-": 0,
-    "B+": 0,
-    "B-": 0,
-    "O+": 0,
-    "O-": 0,
-    "AB+": 0,
-    "AB-": 0,
-}
-
-month = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-]
-
-year = []
-
-date = []
-
-hospitals = [[1, "Apollo", "Anirudh", 1234]]
-
-for i in range(1, 32):
-    date.append(i)
-
-for i in range(2023, 2027):
-    year.append(i)
-
-
-# def Welcome():
-
-#     global WMaster
-#     WMaster = Tk()
-#     WMaster.geometry("500x300+200+300")
-#     WMaster.title("Blood Bank Agency")
-#     WMaster.resizable(False, False)
-#     WMaster.configure(bg="#FFF")
-
-#     welcomeTextp2 = Label(WMaster, text="BlOOD BANK AGENCY", font=("", 30),fg="#000000", bg="#FFF")
-#     welcomeTextp2.place(x=30, y = 100)
-
-#     enter_btn =  Button(WMaster, text="Enter", font=("", 15),fg='white',bg='#ff2400', command=openHS)
-#     enter_btn.place(x=205, y=200)
-# x=20,y=20,50,80,110,140,170
-
-
 # home screen
+
+blood_groups = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"]
 
 
 def HomeScreen():
-    print(blood_groups)
     global HSMaster
     HSMaster = Tk()
     HSMaster.geometry("500x400+200+300")
@@ -252,7 +185,15 @@ def SignUp(username, password):
 
 # donate blood window
 def donate_blood():
-    # TODO: Add a "Associated Hospital" field and respective drop-down menu
+    con = cnctr.connect(
+        host="localhost", user="root", password="", db="BloodBankAgency"
+    )
+    cur = con.cursor()
+    cur.execute("SELECT HospitalID, Name FROM HospitalsBBA")
+    hospitals = cur.fetchall()
+    hospitals_names = []
+    for i in hospitals:
+        hospitals_names.append(str(i[0]) + ". " + i[1])
     global AEMaster
     AEMaster = Tk()
     AEMaster.geometry("400x300+200+300")
@@ -289,18 +230,15 @@ def donate_blood():
     )
     Asch.place(x=10, y=40)
 
-    Asociated_hospitals = StringVar(AEMaster)
-    hospnames = []
-    for i in hospitals:
-        hospnames.append(i[1])
-    Associated_Hospitals = ttk.Combobox(
+    Associated_hospitals = StringVar(AEMaster)
+    Associated_HospitalsLabel = ttk.Combobox(
         AEMaster,
-        textvariable=Asociated_hospitals,
-        values=hospnames,
+        textvariable=Associated_hospitals,
+        values=hospitals_names,
         width=5,
         state="readonly",
     )
-    Associated_Hospitals.place(x=155, y=40)
+    Associated_HospitalsLabel.place(x=155, y=40)
 
     BldGrpLbl = Label(
         AEMaster, fg="#000000", bg="#FFF", text="Blood Group: ", font=("", 11)
@@ -311,7 +249,7 @@ def donate_blood():
     BloodGroup = ttk.Combobox(
         AEMaster,
         textvariable=selected_blood_group,
-        values=list(blood_groups.keys()),
+        values=blood_groups,
         width=2,
         state="readonly",
     )
@@ -328,6 +266,8 @@ def donate_blood():
             MobileNumEntry.get(),
             selected_blood_group.get(),
             AmntOfBloodEntry.get(),
+            Associated_hospitals.get().split()[0].split(".")[0],
+            AEMaster,
         ),
     )
     addEntryBtn.place(x=150, y=260)
@@ -344,6 +284,16 @@ def requestBloodDonation():
     Rcpmaster.title("Blood Bank Agency")
     Rcpmaster.resizable(False, False)
     Rcpmaster.configure(bg="#FFF")
+
+    con = cnctr.connect(
+        host="localhost", user="root", password="", db="BloodBankAgency"
+    )
+    cur = con.cursor()
+    cur.execute("SELECT HospitalID, Name FROM HospitalsBBA")
+    hospitals = cur.fetchall()
+    hospitals_names = []
+    for i in hospitals:
+        hospitals_names.append(str(i[0]) + ". " + i[1])
 
     NameLbl = Label(
         Rcpmaster, fg="#000000", bg="#FFF", text="Recipient Name: ", font=("", 13)
@@ -379,13 +329,10 @@ def requestBloodDonation():
     HospIdLabel.place(x=10, y=160)
 
     selected_hospital = StringVar(Rcpmaster)
-    hspnames = []
-    for i in hospitals:
-        hspnames.append(i[1])
     HospIDDropBox = ttk.Combobox(
         Rcpmaster,
         textvariable=selected_hospital,
-        values=hspnames,
+        values=hospitals_names,
         width=7,
         state="readonly",
     )
@@ -400,32 +347,11 @@ def requestBloodDonation():
     BloodGroup = ttk.Combobox(
         Rcpmaster,
         textvariable=selected_blood_group,
-        values=list(blood_groups.keys()),
+        values=blood_groups,
         width=2,
         state="readonly",
     )
     BloodGroup.place(x=155, y=190)
-
-    DateLbl = Label(Rcpmaster, fg="#000000", bg="#FFF", text="Date: ", font=("", 11))
-    DateLbl.place(x=10, y=220)
-
-    selected_date = StringVar(Rcpmaster)
-    DateDrpDown = ttk.Combobox(
-        Rcpmaster, textvariable=selected_date, values=date, width=2, state="readonly"
-    )
-    DateDrpDown.place(x=155, y=220)
-
-    selected_month = StringVar(Rcpmaster)
-    Month = ttk.Combobox(
-        Rcpmaster, textvariable=selected_month, values=month, width=7, state="readonly"
-    )
-    Month.place(x=215, y=220)
-
-    selected_year = StringVar(Rcpmaster)
-    yrdrpdown = ttk.Combobox(
-        Rcpmaster, textvariable=selected_year, values=year, width=5, state="readonly"
-    )
-    yrdrpdown.place(x=320, y=220)
 
     requestBlood = Button(
         Rcpmaster,
@@ -434,11 +360,8 @@ def requestBloodDonation():
             NameEntry.get(),
             int(AmntOfBloodEntry.get()),
             MobileNumEntry.get(),
-            selected_hospital.get(),
+            selected_hospital.get().split()[0].split(".")[0],
             selected_blood_group.get(),
-            int(selected_date.get()),
-            selected_month.get(),
-            int(selected_year.get()),
         ),
     )
     requestBlood.configure(highlightbackground="#000000")
@@ -530,14 +453,14 @@ def add_hosp(hspname, cntctname, Mobile, Master):
     back(Master)
 
 
-def add_entry(Name, Mobile, Blood_Group, Quantity, Master):
+def add_entry(Name, Mobile, Blood_Group, Quantity, hosp, Master):
     con = cnctr.connect(
         host="localhost", user="root", password="", db="BloodBankAgency"
     )
     cur = con.cursor()
     cur.execute(
-        "INSERT INTO Donated_BloodBBA(Name, Mobile, BloodGroup, Quantity, Date) VALUES(%s, %s, %s, %s, NOW())",
-        (Name, Mobile, Blood_Group, Quantity),
+        "INSERT INTO Donated_BloodBBA(Name, Mobile, BloodGroup, Quantity, HospitalID, Date) VALUES(%s, %s, %s, %s, %s, NOW())",
+        (Name, Mobile, Blood_Group, Quantity, hosp),
     )
     cur.execute(
         "UPDATE Blood_GroupsBBA SET Amount = Amount + %s WHERE TYPE = %s",
@@ -549,7 +472,7 @@ def add_entry(Name, Mobile, Blood_Group, Quantity, Master):
     back(Master)
 
 
-def request_Blood(Name, amntofbld, mobilenum, hosp, bldgrp, Date, Month, Year):
+def request_Blood(Name, amntofbld, mobilenum, hosp, bldgrp):
     con = cnctr.connect(
         host="localhost", user="root", password="", db="BloodBankAgency"
     )
@@ -561,8 +484,8 @@ def request_Blood(Name, amntofbld, mobilenum, hosp, bldgrp, Date, Month, Year):
         back(Rcpmaster)
         return
     cur.execute(
-        "INSERT INTO RequestsBBA(Name, Quantity, Mobile, BloodGroup, Date) VALUES(%s, %s, %s, %s, NOW())",
-        (Name, amntofbld, mobilenum, bldgrp),
+        "INSERT INTO RequestsBBA(Name, Quantity, Mobile, BloodGroup, HospitalID, Date) VALUES(%s, %s, %s, %s, %s, NOW())",
+        (Name, amntofbld, mobilenum, bldgrp, hosp),
     )
     cur.execute(
         "UPDATE Blood_GroupsBBA SET Amount = Amount - %s WHERE TYPE = %s",
@@ -667,7 +590,6 @@ def remove_entry(index, db, indexname, fn, Master, self):
 
 
 def displayrecipients():
-    print(hospitals)
     global DRMaster
     DRMaster = Tk()
     DRMaster.geometry("500x300+200+300")
@@ -747,7 +669,6 @@ def fn_forRecipient(lst):
 
 
 def DisplayHospitals():
-    print(hospitals)
     global DHMaster
     DHMaster = Tk()
     DHMaster.geometry("500x300+200+300")
@@ -825,17 +746,6 @@ def fn_forhosp(lst):
     deleteEntryBtn.grid(row=4, column=0)
 
 
-def remove_for_hosp(hosp_name, fn, Master, self):
-    for i in hospitals:
-        if hosp_name in i:
-            hospitals.remove(i)
-            break
-    print(hospitals)
-    Master.destroy()
-    fn()
-    self.destroy()
-
-
 def back(_from):
     _from.destroy()
     HomeScreen()
@@ -869,11 +779,11 @@ def SQL_INIT():
         )
     if ("RequestsBBA",) not in result:
         cur.execute(
-            "CREATE TABLE RequestsBBA(RequestID INT AUTO_INCREMENT PRIMARY KEY, Name VARCHAR(30), Quantity INT, Mobile BIGINT, BloodGroup VARCHAR(5), Date DATE)"
+            "CREATE TABLE RequestsBBA(RequestID INT AUTO_INCREMENT PRIMARY KEY, Name VARCHAR(30), Quantity INT, Mobile BIGINT, BloodGroup VARCHAR(5), HospitalID INT, Date DATE, FOREIGN KEY(HospitalID) REFERENCES HospitalsBBA(HospitalID))"
         )
     if ("Donated_BloodBBA",) not in result:
         cur.execute(
-            "CREATE TABLE Donated_BloodBBA(DonorID INT AUTO_INCREMENT PRIMARY KEY, Name VARCHAR(30), Mobile BIGINT, BloodGroup VARCHAR(5), Quantity INT, Date DATE)"
+            "CREATE TABLE Donated_BloodBBA(DonorID INT AUTO_INCREMENT PRIMARY KEY, Name VARCHAR(30), Mobile BIGINT, BloodGroup VARCHAR(5), Quantity INT, HospitalID INT, Date DATE, FOREIGN KEY(HospitalID) REFERENCES HospitalsBBA(HospitalID))"
         )
 
     cur.execute("commit")
