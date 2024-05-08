@@ -9,6 +9,8 @@ import os
 
 blood_groups = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"]
 
+mysql_password = input("Enter your mysql password: ")
+
 
 def HomeScreen():
     global HSMaster
@@ -99,7 +101,7 @@ def LoginScreen():
 
 def Login(Username, Password, Master):
     login_connection = cnctr.connect(
-        host="localhost", user="root", password="", db="BloodBankAgency"
+        host="localhost", user="root", password=mysql_password, db="BloodBankAgency"
     )
     cur = login_connection.cursor()
     cur.execute("SHOW TABLES")
@@ -163,7 +165,7 @@ def SignUp(username, password):
     SUMaster.destroy()
     """
     signup_connection = cnctr.connect(
-        host="localhost", user="root", password="", db="BloodBankAgency"
+        host="localhost", user="root", password=mysql_password, db="BloodBankAgency"
     )
     cur = signup_connection.cursor()
     cur.execute("SHOW TABLES")
@@ -186,7 +188,7 @@ def SignUp(username, password):
 # donate blood window
 def donate_blood():
     con = cnctr.connect(
-        host="localhost", user="root", password="", db="BloodBankAgency"
+        host="localhost", user="root", password=mysql_password, db="BloodBankAgency"
     )
     cur = con.cursor()
     cur.execute("SELECT HospitalID, Name FROM HospitalsBBA")
@@ -286,7 +288,7 @@ def requestBloodDonation():
     Rcpmaster.configure(bg="#FFF")
 
     con = cnctr.connect(
-        host="localhost", user="root", password="", db="BloodBankAgency"
+        host="localhost", user="root", password=mysql_password, db="BloodBankAgency"
     )
     cur = con.cursor()
     cur.execute("SELECT HospitalID, Name FROM HospitalsBBA")
@@ -440,7 +442,7 @@ def open(fn):
 
 def add_hosp(hspname, cntctname, Mobile, Master):
     con = cnctr.connect(
-        host="localhost", user="root", password="", db="BloodBankAgency"
+        host="localhost", user="root", password=mysql_password, db="BloodBankAgency"
     )
     cur = con.cursor()
     cur.execute(
@@ -455,7 +457,7 @@ def add_hosp(hspname, cntctname, Mobile, Master):
 
 def add_entry(Name, Mobile, Blood_Group, Quantity, hosp, Master):
     con = cnctr.connect(
-        host="localhost", user="root", password="", db="BloodBankAgency"
+        host="localhost", user="root", password=mysql_password, db="BloodBankAgency"
     )
     cur = con.cursor()
     cur.execute(
@@ -474,7 +476,7 @@ def add_entry(Name, Mobile, Blood_Group, Quantity, hosp, Master):
 
 def request_Blood(Name, amntofbld, mobilenum, hosp, bldgrp):
     con = cnctr.connect(
-        host="localhost", user="root", password="", db="BloodBankAgency"
+        host="localhost", user="root", password=mysql_password, db="BloodBankAgency"
     )
     cur = con.cursor()
     cur.execute("SELECT Amount FROM Blood_GroupsBBA WHERE Type = %s", (bldgrp,))
@@ -510,7 +512,7 @@ def DisplayDonors():
     backBtn.pack(anchor=S)
 
     con = cnctr.connect(
-        host="localhost", user="root", password="", db="BloodBankAgency"
+        host="localhost", user="root", password=mysql_password, db="BloodBankAgency"
     )
     cur = con.cursor()
     cur.execute("SELECT DonorID, Name FROM Donated_BloodBBA")
@@ -529,7 +531,7 @@ def DisplayDonors():
 def fn(lst):
     donorID = lst.get(lst.curselection()[0]).split()[1]
     con = cnctr.connect(
-        host="localhost", user="root", password="", db="BloodBankAgency"
+        host="localhost", user="root", password=mysql_password, db="BloodBankAgency"
     )
     print(donorID)
 
@@ -578,7 +580,7 @@ def fn(lst):
 
 def remove_entry(index, db, indexname, fn, Master, self):
     con = cnctr.connect(
-        host="localhost", user="root", password="", db="BloodBankAgency"
+        host="localhost", user="root", password=mysql_password, db="BloodBankAgency"
     )
     cur = con.cursor()
     cur.execute("DELETE FROM " + db + " WHERE " + indexname + "=%s", (index,))
@@ -602,7 +604,7 @@ def displayrecipients():
     backBtn.pack(anchor=S)
 
     con = cnctr.connect(
-        host="localhost", user="root", password="", db="BloodBankAgency"
+        host="localhost", user="root", password=mysql_password, db="BloodBankAgency"
     )
     cur = con.cursor()
     cur.execute("SELECT RequestID, Name FROM RequestsBBA")
@@ -621,7 +623,7 @@ def displayrecipients():
 def fn_forRecipient(lst):
     requestID = lst.get(lst.curselection()[0]).split()[1]
     con = cnctr.connect(
-        host="localhost", user="root", password="", db="BloodBankAgency"
+        host="localhost", user="root", password=mysql_password, db="BloodBankAgency"
     )
     print(requestID)
 
@@ -681,7 +683,7 @@ def DisplayHospitals():
     backBtn.pack(anchor=S)
 
     con = cnctr.connect(
-        host="localhost", user="root", password="", db="BloodBankAgency"
+        host="localhost", user="root", password=mysql_password, db="BloodBankAgency"
     )
     cur = con.cursor()
     cur.execute("SELECT HospitalID, Name FROM HospitalsBBA")
@@ -700,7 +702,7 @@ def DisplayHospitals():
 def fn_forhosp(lst):
     hospitalID = lst.get(lst.curselection()[0]).split()[1]
     con = cnctr.connect(
-        host="localhost", user="root", password="", db="BloodBankAgency"
+        host="localhost", user="root", password=mysql_password, db="BloodBankAgency"
     )
     print(hospitalID)
 
@@ -752,7 +754,7 @@ def back(_from):
 
 
 def SQL_INIT():
-    con = cnctr.connect(host="localhost", user="root", password="")
+    con = cnctr.connect(host="localhost", user="root", password=mysql_password)
     cur = con.cursor()
     cur.execute("SHOW DATABASES")
     result = cur.fetchall()
